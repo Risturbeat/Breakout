@@ -48,25 +48,29 @@ class ViewController: UIViewController {
             enter()
         }
         switch operation{
-            case "×":performOperation { $0 * $1 }
+        case "×":performOperation { $0 * $1 }
             
-            case "÷":performOperation { $1 / $0 } //cannot divide by 0!!
-            
-            case "+":performOperation { $0 + $1 }
-            
-            case "−":performOperation { $1 - $0 }
-            
-            case "√":performOperation {sqrt($0)}
-            
-            case "sin":performOperation {sin($0)}
-        
-            case "cos": performOperation{cos($0)}
-            
-            case "π":
-            
-            if operandStack.count<1{
-                display.text = "\(M_PI)"
+        case "÷":
+            if(operandStack.last != 0){ //cannot divide by 0!!
+                performOperation { $1 / $0 }
             }else{
+                operandStack.removeLast()
+            }
+        case "+":performOperation { $0 + $1 }
+            
+        case "−":performOperation { $1 - $0 }
+            
+        case "√":performOperation {sqrt($0)}
+            
+        case "sin":performOperation {sin($0)}
+        
+        case "cos": performOperation{cos($0)}
+            
+        case "π":
+            
+        if operandStack.count<1 {
+                display.text = "\(M_PI)"
+        }else{
                 performOperation{ M_PI * $0}
             }
             
