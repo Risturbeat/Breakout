@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     var userIsTypingANumber = false
     var userTypedDot = false
+    var shouldAddToHistory = true
     
     @IBAction func appendDigit(sender: UIButton) {
     let digit = sender.currentTitle!
@@ -41,8 +42,9 @@ class ViewController: UIViewController {
     
     @IBAction func operate(sender: UIButton) {
         let operation = sender.currentTitle!
+        history.text = history.text! + operation + ", "
+        shouldAddToHistory = false
         if userIsTypingANumber{
-            history.text = history.text! + operation + ", "
             enter()
         }
         switch operation{
@@ -92,6 +94,7 @@ class ViewController: UIViewController {
     var userTypedStack = Array<Double>()
    
     @IBAction func enter() {
+        addToHistory(display.text!)
         userIsTypingANumber = false
         userTypedDot = false
         operandStack.append(displayValue)
@@ -99,7 +102,10 @@ class ViewController: UIViewController {
     }
     
     func addToHistory(value : String?){
-         history.text = history.text! + value! + ", "
+        if shouldAddToHistory{
+            history.text = history.text! + display.text! + ", "
+        }
+        shouldAddToHistory = true
     }
     
     var displayValue: Double {
@@ -111,5 +117,12 @@ class ViewController: UIViewController {
             userIsTypingANumber = false
         }
     }
+    
+    @IBAction func clear(sender: UIButton) {
+        operandStack.removeAll(keepCapacity: false)
+        history.text!.removeAll(keepCapacity: false)
+        display.text = "0"
+    }
+    
 }
 
