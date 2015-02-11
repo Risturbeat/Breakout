@@ -10,20 +10,26 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var history: UILabel!
+    @IBOutlet weak var stackLabel: UILabel!
     
     var userIsTypingANumber = false
     var userTypedDot = false
     var shouldAddToHistory = true
+    var operandStack = Array<Double>()
+    var userTypedStack = Array<Double>()
+
     
     @IBAction func appendDigit(sender: UIButton) {
-    let digit = sender.currentTitle!
+        let digit = sender.currentTitle!
 
         if userIsTypingANumber{
+            println("User is typing and appending")
             display.text = display.text! + digit
         }else{
+            println("User is not typting")
             display.text = digit
             userIsTypingANumber = true
-
         }
     }
     
@@ -74,7 +80,7 @@ class ViewController: UIViewController {
         case "sin":performOperation {sin($0)}
         
         case "cos": performOperation{cos($0)}
-            
+         
         default:break
         }
     }
@@ -83,19 +89,25 @@ class ViewController: UIViewController {
         if operandStack.count >= 2{
             displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
             showEqualsSign()
+            shouldAddToHistory = false
             enter()
-            //updateStack(false)
         }
-
     }
     
     func performOperation(operation: Double -> Double){
         if operandStack.count >= 1{
             displayValue = operation(operandStack.removeLast())
             showEqualsSign()
+            shouldAddToHistory = false
             enter()
-            //updateStack(false)
         }
+    }
+    
+    @IBAction func executePlusMinus(sender: UIButton) {
+        var valueToDisplay = (displayValue * -1).description
+        removeRange(&valueToDisplay, valueToDisplay.rangeOfString(".0")!)
+        display.text = valueToDisplay
+        userIsTypingANumber = true
     }
     
     func showEqualsSign(){
@@ -104,25 +116,17 @@ class ViewController: UIViewController {
         }
         shouldAddToHistory = true
         addToHistory("=")
-        
     }
     
-    @IBOutlet weak var history: UILabel!
-    @IBOutlet weak var stackLabel: UILabel!
-    
-    var operandStack = Array<Double>()
-    var userTypedStack = Array<Double>()
-   
     @IBAction func enter() {
         addToHistory(display.text!)
+        
         userIsTypingANumber = false
         userTypedDot = false
         operandStack.append(displayValue)
         updateStack()
         println(" operandSTack = \(operandStack)")
     }
-    
-    
     
     func addToHistory(value : String){
         if shouldAddToHistory{
@@ -136,9 +140,9 @@ class ViewController: UIViewController {
         }
         shouldAddToHistory = true
     }
+    
     func updateStack(){
         stackLabel.text = "Operand stack: " + "\(operandStack)"
-        
     }
     
     var displayValue: Double {
@@ -154,10 +158,10 @@ class ViewController: UIViewController {
     @IBAction func clear(sender: UIButton) {
         operandStack.removeAll(keepCapacity: false)
         history.text!.removeAll(keepCapacity: false)
+        stackLabel.text = "Operand stack:"
         display.text = "0"
     }
     
-
     @IBAction func backspace(sender: UIButton) {
         display.text = dropLast(display.text!)
         if countElements(display.text!) < 1 {
