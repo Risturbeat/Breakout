@@ -18,35 +18,44 @@ class ViewController: UIViewController {
     @IBAction func appendDigit(sender: UIButton) {
     let digit = sender.currentTitle!
 
-        if userIsTypingANumber {
-          display.text = display.text! + digit
+        if userIsTypingANumber{
+            display.text = display.text! + digit
         }else{
             display.text = digit
             userIsTypingANumber = true
+
         }
     }
     
     @IBAction func appendDot(sender: UIButton){
         let digit = sender.currentTitle!
         
-        if userIsTypingANumber{
-            if !userTypedDot{
-                display.text = display.text!+digit
-                userTypedDot = true
-            }
+        if userIsTypingANumber && digit == "." && display.text!.rangeOfString(".") == nil {
+                display.text = display.text! + digit
         }else{
-            display.text = digit
+            display.text = "0" + digit
             userIsTypingANumber = true
         }
     }
     
-    @IBAction func operate(sender: UIButton) {
-        let operation = sender.currentTitle!
-        history.text = history.text! + operation + ", "
-        shouldAddToHistory = false
+    @IBAction func addPi(sender: UIButton) {
         if userIsTypingANumber{
             enter()
         }
+            display.text = "\(M_PI)"
+            enter()
+        }
+    
+    @IBAction func operate(sender: UIButton) {
+        let operation = sender.currentTitle!
+        
+        if userIsTypingANumber{
+            enter()
+        }
+        
+        history.text = history.text! + operation + ", "
+        shouldAddToHistory = false
+        
         switch operation{
         case "×":performOperation { $0 * $1 }
             
@@ -66,14 +75,6 @@ class ViewController: UIViewController {
         
         case "cos": performOperation{cos($0)}
             
-        case "π":
-            
-        if operandStack.count<1 {
-                display.text = "\(M_PI)"
-        }else{
-                performOperation{ M_PI * $0}
-            }
-            
         default:break
         }
     }
@@ -81,18 +82,33 @@ class ViewController: UIViewController {
     func performOperation(operation: (Double,Double) ->Double){
         if operandStack.count >= 2{
             displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
+            showEqualsSign()
             enter()
+            //updateStack(false)
         }
 
     }
+    
     func performOperation(operation: Double -> Double){
         if operandStack.count >= 1{
             displayValue = operation(operandStack.removeLast())
+            showEqualsSign()
             enter()
+            //updateStack(false)
         }
     }
     
+    func showEqualsSign(){
+        if history.text!.rangeOfString("=") != nil{
+            history.text!.removeRange(history.text!.rangeOfString(", =")!)
+        }
+        shouldAddToHistory = true
+        addToHistory("=")
+        
+    }
+    
     @IBOutlet weak var history: UILabel!
+    @IBOutlet weak var stackLabel: UILabel!
     
     var operandStack = Array<Double>()
     var userTypedStack = Array<Double>()
@@ -102,14 +118,27 @@ class ViewController: UIViewController {
         userIsTypingANumber = false
         userTypedDot = false
         operandStack.append(displayValue)
+        updateStack()
         println(" operandSTack = \(operandStack)")
     }
     
-    func addToHistory(value : String?){
+    
+    
+    func addToHistory(value : String){
         if shouldAddToHistory{
-            history.text = history.text! + display.text! + ", "
+            if value == " \(M_PI)"{
+                history.text = history.text! + "3.14" + ", "
+            }else if value == "="{
+                history.text = history.text! + value + ", "
+            }else{
+                history.text = history.text! + display.text! + ", "
+            }
         }
         shouldAddToHistory = true
+    }
+    func updateStack(){
+        stackLabel.text = "Operand stack: " + "\(operandStack)"
+        
     }
     
     var displayValue: Double {
@@ -128,5 +157,13 @@ class ViewController: UIViewController {
         display.text = "0"
     }
     
+
+    @IBAction func backspace(sender: UIButton) {
+        display.text = dropLast(display.text!)
+        if countElements(display.text!) < 1 {
+            display.text = "0"
+            userIsTypingANumber = false
+        }
+    }
 }
 
