@@ -24,8 +24,10 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
 
         if userIsTypingANumber{
+            println("User is typing and appending")
             display.text = display.text! + digit
         }else{
+            println("User is not typting")
             display.text = digit
             userIsTypingANumber = true
         }
@@ -37,8 +39,11 @@ class ViewController: UIViewController {
         if userIsTypingANumber && digit == "." && display.text!.rangeOfString(".") == nil {
                 display.text = display.text! + digit
         }else{
-            display.text = "0" + digit
-            userIsTypingANumber = true
+            if !userIsTypingANumber{
+                display.text = "0" + digit
+                userIsTypingANumber = true
+            }
+           
         }
     }
     
