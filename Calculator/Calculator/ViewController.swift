@@ -24,10 +24,8 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
 
         if userIsTypingANumber{
-            println("User is typing and appending")
             display.text = display.text! + digit
         }else{
-            println("User is not typting")
             display.text = digit
             userIsTypingANumber = true
         }
@@ -116,6 +114,7 @@ class ViewController: UIViewController {
         }
         shouldAddToHistory = true
         addToHistory("=")
+        
     }
     
     @IBAction func enter() {
@@ -123,6 +122,7 @@ class ViewController: UIViewController {
         
         userIsTypingANumber = false
         userTypedDot = false
+        
         operandStack.append(displayValue)
         updateStack()
         println(" operandSTack = \(operandStack)")
@@ -130,6 +130,12 @@ class ViewController: UIViewController {
     
     func addToHistory(value : String){
         if shouldAddToHistory{
+            switch value{
+                case "\(M_PI)": history.text = history.text! + "3.14" + ", "
+                case "=": history.text = history.text! + value + ", "
+                default: history.text = history.text! + display.text! + ", "
+            }
+            /*
             if value == " \(M_PI)"{
                 history.text = history.text! + "3.14" + ", "
             }else if value == "="{
@@ -137,6 +143,7 @@ class ViewController: UIViewController {
             }else{
                 history.text = history.text! + display.text! + ", "
             }
+            */
         }
         shouldAddToHistory = true
     }
