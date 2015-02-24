@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var shouldAddToHistory = true
     var operandStack = Array<Double>()
     var userTypedStack = Array<Double>()
+    var brain = CalculatorBrain()
 
     
     @IBAction func appendDigit(sender: UIButton) {
@@ -140,21 +141,12 @@ class ViewController: UIViewController {
                 case "=": history.text = history.text! + value + ", "
                 default: history.text = history.text! + display.text! + ", "
             }
-            /*
-            if value == " \(M_PI)"{
-                history.text = history.text! + "3.14" + ", "
-            }else if value == "="{
-                history.text = history.text! + value + ", "
-            }else{
-                history.text = history.text! + display.text! + ", "
-            }
-            */
         }
         shouldAddToHistory = true
     }
     
     func updateStack(){
-        stackLabel.text = "Operand stack: " + "\(operandStack)"
+        stackLabel.text = "Operand stack: " + ""
     }
     
     var displayValue: Double {
