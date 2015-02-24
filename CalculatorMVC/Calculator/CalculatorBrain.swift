@@ -11,7 +11,7 @@ import Foundation
 
 class CalculatorBrain{
     
-    private enum Op : Printable{
+    enum Op : Printable{
         case Operand (Double)
         case UnaryOperation (String, Double-> Double)
         case BinaryOperation (String, (Double,Double) -> Double)
@@ -31,7 +31,9 @@ class CalculatorBrain{
     }
     
     private var opStack = [Op]()
+    private var currentOpStack = [Op]()
     private var knownOps = [String:Op]()
+    private var variableValues = [String:Double]()
     
     init(){
         func learnop (op:Op){
@@ -46,8 +48,17 @@ class CalculatorBrain{
     }
     
     func pushOperand( operand: Double)->Double?{
-        opStack.append (Op.Operand(operand))
+        opStack.append(Op.Operand(operand))
         return evaluate()
+    }
+    
+    func pushOperand(symbol: String) ->Double?{
+        return evaluate()
+    }
+    
+    func getCurrentOpStack() ->[Op]{
+        println("The current op stack is:  " + "\(opStack)")
+        return currentOpStack
     }
     
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op]){
@@ -71,6 +82,9 @@ class CalculatorBrain{
                     }
                 }
             }
+            if !remainingOps.isEmpty{
+                opStack = remainingOps
+            }
         }
         return (nil, ops)
     }
@@ -86,6 +100,7 @@ class CalculatorBrain{
         if let operation = knownOps[symbol]{
             opStack.append(operation)
         }
+        
         return evaluate()
     }
 

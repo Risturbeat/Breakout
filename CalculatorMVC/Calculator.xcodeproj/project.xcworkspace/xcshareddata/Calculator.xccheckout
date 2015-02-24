@@ -14,7 +14,7 @@
 		<string>https://github.com/HANICA/MAD-student-DanielPollmann</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Calculator/Calculator.xcodeproj</string>
+	<string>CalculatorMVC/Calculator.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>D5FF3CE27C162284C64E5B075B1C373E32392994</key>

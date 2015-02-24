@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     var userTypedDot = false
     var shouldAddToHistory = true
     var operandStack = Array<Double>() //Moet weg
-    var userTypedStack = Array<Double>()
+    //var userTypedStack = Array<Double>()
     var brain = CalculatorBrain()
 
     
@@ -25,10 +25,8 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
 
         if userIsTypingANumber{
-            println("User is typing and appending")
             display.text = display.text! + digit
         }else{
-            println("User is not typting")
             display.text = digit
             userIsTypingANumber = true
         }
@@ -69,20 +67,19 @@ class ViewController: UIViewController {
             }
             history.text = history.text! + operation + ", "
         }
-        
-        
         shouldAddToHistory = false
-        
-        }
+        showEqualsSign()
+    }
     
     @IBAction func executePlusMinus(sender: UIButton) {
-        var valueToDisplay = (displayValue * -1).description
+        var valueToDisplay = (displayValue! * -1).description
         removeRange(&valueToDisplay, valueToDisplay.rangeOfString(".0")!)
         display.text = valueToDisplay
         userIsTypingANumber = true
     }
     
     func showEqualsSign(){
+        println("Show equals")
         if history.text!.rangeOfString("=") != nil{
             history.text!.removeRange(history.text!.rangeOfString(", =")!)
         }
@@ -97,15 +94,13 @@ class ViewController: UIViewController {
         userIsTypingANumber = false
         userTypedDot = false
         
-        if let result = brain.pushOperand(displayValue){
-            displayValue = result
-        }else{
-            displayValue = 0 //Niet netjes
-        }
-        
-        //operandStack.append(displayValue) // moet weg
-        updateStack() // moet weg
-        println(" operandSTack = \(operandStack)")
+            if let result = brain.pushOperand(displayValue!){
+                displayValue = result
+            }else{
+                displayValue = 0 //Niet netjes
+            }
+        updateStackLabel()
+       // println(" operandSTack = \(operandStack)")
     }
     
     func addToHistory(value : String){
@@ -119,21 +114,25 @@ class ViewController: UIViewController {
         shouldAddToHistory = true
     }
     
-    func updateStack(){
-        stackLabel.text = "Operand stack: " + "\(operandStack)"
+    func updateStackLabel(){
+        //stackLabel.text = "Operand stack: " + "\(brain.getCurrentOpStack())"
     }
     
-    var displayValue: Double {
+    var displayValue: Double? {
         get{
             return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
         }
         set{
-           display.text =  "\(newValue)"
-            userIsTypingANumber = false
+            if (newValue != nil){
+                display.text =  "\(newValue!)"
+                userIsTypingANumber = false
+            }else{
+                display.text = "0"
+            }
         }
     }
     
-    @IBAction func clear(sender: UIButton) {
+    @IBAction func clear() {
         operandStack.removeAll(keepCapacity: false)
         history.text!.removeAll(keepCapacity: false)
         stackLabel.text = "Operand stack:"
