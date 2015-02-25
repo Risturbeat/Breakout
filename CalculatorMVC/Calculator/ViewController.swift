@@ -54,6 +54,26 @@ class ViewController: UIViewController {
             enter()
         }
     
+    @IBAction func saveVariableValue(sender: UIButton) {
+        // source http://sketchytech.blogspot.nl/2014/08/swift-pure-swift-method-for-returning.html
+        if let variable = last(sender.currentTitle!){
+            if displayValue != nil{
+                brain.variableValues["\(variable)"] = displayValue //store the value
+            }
+        }
+        userIsTypingANumber = false
+    }
+   
+    @IBAction func pushVariableToStack(sender: UIButton) {
+        if userIsTypingANumber{
+            enter()
+        }
+        
+        if let result = brain.pushOperand(sender.currentTitle!){
+            displayValue = result
+        }
+    }
+    
     @IBAction func operate(sender: UIButton) {
         if userIsTypingANumber{
             enter()
@@ -79,7 +99,6 @@ class ViewController: UIViewController {
     }
     
     func showEqualsSign(){
-        println("Show equals")
         if history.text!.rangeOfString("=") != nil{
             history.text!.removeRange(history.text!.rangeOfString(", =")!)
         }
@@ -127,7 +146,7 @@ class ViewController: UIViewController {
                 display.text =  "\(newValue!)"
                 userIsTypingANumber = false
             }else{
-                display.text = "0"
+                display.text = " "
             }
         }
     }

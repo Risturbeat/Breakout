@@ -15,6 +15,7 @@ class CalculatorBrain{
         case Operand (Double)
         case UnaryOperation (String, Double-> Double)
         case BinaryOperation (String, (Double,Double) -> Double)
+        case Variable(String)
         
         var description: String {
             get{
@@ -25,6 +26,8 @@ class CalculatorBrain{
                     return symbol
                 case .BinaryOperation(let symbol, _):
                     return symbol
+                case .Variable(let symbol):
+                    return symbol
                 }
             }
         }
@@ -33,7 +36,7 @@ class CalculatorBrain{
     private var opStack = [Op]()
     private var currentOpStack = [Op]()
     private var knownOps = [String:Op]()
-    private var variableValues = [String:Double]()
+    var variableValues = [String:Double]()
     
     init(){
         func learnop (op:Op){
@@ -53,6 +56,7 @@ class CalculatorBrain{
     }
     
     func pushOperand(symbol: String) ->Double?{
+        opStack.append(Op.Variable(symbol)) // operands get pushed onto the opStack, but opStack needs a new case for this to be possible
         return evaluate()
     }
     
@@ -81,7 +85,18 @@ class CalculatorBrain{
                         return (operation(operand1, operand2), op2Evaluation.remainingOps)
                     }
                 }
+            //Needs a new case: .Variable
+            case .Variable(let symbol):
+                //Check whether or not the Variable contains a value
+                if let value = variableValues[symbol]{
+                    //if so, return the value that is in there
+                    return(variableValues[symbol],remainingOps)
+                }
+                
+                return (nil,remainingOps)
+                
             }
+            
             if !remainingOps.isEmpty{
                 opStack = remainingOps
             }

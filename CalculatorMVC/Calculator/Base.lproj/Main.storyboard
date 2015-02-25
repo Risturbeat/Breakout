@@ -223,19 +223,15 @@
                                     <action selector="clear" destination="BYZ-38-t0r" eventType="touchUpInside" id="D5k-Ka-bvu"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5u4-Cx-AOm">
-                                <rect key="frame" x="358" y="121" width="109" height="92"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAh-Bt-PJn">
                                 <rect key="frame" x="471" y="121" width="109" height="92"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal">
+                                <state key="normal" title="M">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="pushVariableValueToStack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WeF-kZ-21J"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Bf-H8-yTh">
                                 <rect key="frame" x="16" y="67" width="568" height="21"/>
@@ -295,6 +291,16 @@
                                 </state>
                                 <connections>
                                     <action selector="executePlusMinus:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6cB-fn-Jnc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5u4-Cx-AOm">
+                                <rect key="frame" x="358" y="121" width="109" height="92"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="⇒M">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveVariableValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SvN-Tq-SSp"/>
                                 </connections>
                             </button>
                         </subviews>
