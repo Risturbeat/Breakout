@@ -16,11 +16,8 @@ class ViewController: UIViewController {
     var userIsTypingANumber = false
     var userTypedDot = false
     var shouldAddToHistory = true
-    var operandStack = Array<Double>() //Moet weg
-    //var userTypedStack = Array<Double>()
     var brain = CalculatorBrain()
 
-    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
 
@@ -59,6 +56,11 @@ class ViewController: UIViewController {
         if let variable = last(sender.currentTitle!){
             if displayValue != nil{
                 brain.variableValues["\(variable)"] = displayValue //store the value
+                if let result = brain.evaluate(){
+                    displayValue = result
+                }else{
+                    displayValue = nil
+                }
             }
         }
         userIsTypingANumber = false
@@ -71,6 +73,8 @@ class ViewController: UIViewController {
         
         if let result = brain.pushOperand(sender.currentTitle!){
             displayValue = result
+        }else{
+            displayValue = nil
         }
     }
     
@@ -83,7 +87,7 @@ class ViewController: UIViewController {
             if let result = brain.performOperation(operation){
                 displayValue = result
             }else{
-                displayValue = 0
+                displayValue = nil
             }
             history.text = history.text! + operation + ", "
         }
@@ -119,7 +123,6 @@ class ViewController: UIViewController {
                 displayValue = 0 //Niet netjes
             }
         updateStackLabel()
-       // println(" operandSTack = \(operandStack)")
     }
     
     func addToHistory(value : String){
@@ -134,7 +137,7 @@ class ViewController: UIViewController {
     }
     
     func updateStackLabel(){
-        //stackLabel.text = "Operand stack: " + "\(brain.getCurrentOpStack())"
+        stackLabel.text = "Operand stack: " + "\(brain.getCurrentOpStack())"
     }
     
     var displayValue: Double? {
@@ -152,8 +155,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clear() {
-        operandStack.removeAll(keepCapacity: false)
         history.text!.removeAll(keepCapacity: false)
+        
+        brain = CalculatorBrain()
         stackLabel.text = "Operand stack:"
         display.text = "0"
     }

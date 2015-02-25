@@ -62,7 +62,7 @@ class CalculatorBrain{
     
     func getCurrentOpStack() ->[Op]{
         println("The current op stack is:  " + "\(opStack)")
-        return currentOpStack
+        return opStack
     }
     
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op]){
@@ -95,10 +95,6 @@ class CalculatorBrain{
                 
                 return (nil,remainingOps)
                 
-            }
-            
-            if !remainingOps.isEmpty{
-                opStack = remainingOps
             }
         }
         return (nil, ops)

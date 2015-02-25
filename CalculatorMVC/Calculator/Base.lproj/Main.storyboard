@@ -230,7 +230,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="pushVariableValueToStack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WeF-kZ-21J"/>
+                                    <action selector="pushVariableToStack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pdk-uR-ZLc"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Bf-H8-yTh">
