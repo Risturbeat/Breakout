@@ -10,11 +10,28 @@ import Foundation
 
 
 class CalculatorBrain{
+    private var opStack = [Op]()
+    private var currentOpStack = [Op]()
+    private var knownOps = [String:Op]()
+    var variableValues = [String:Double]()
+    var description: String {
+        get{
+            var (result,ops) = ("",opStack)
+            while ops.count > 0{
+                var current:String?
+                println("ops count  = "  + ops.count.description)
+                (current,ops, _) = description(ops)
+                result = result == "" ? current! : "\(current!), \(result)"
+            }
+            return result
+        }
+    }
     
     enum Op : Printable{
         case Operand (Double)
         case UnaryOperation (String, Double-> Double)
-        case BinaryOperation (String, (Double,Double) -> Double)
+        //In order for the BinaryOperation to be able to work with it's precedence, a precedence will have to be given. Represented as the 2nd Parameter
+        case BinaryOperation (String, Int, (Double,Double) -> Double)
         case Variable(String)
         
         var description: String {
@@ -24,30 +41,39 @@ class CalculatorBrain{
                     return "\(operand)"
                 case .UnaryOperation(let symbol, _):
                     return symbol
-                case .BinaryOperation(let symbol, _):
+
+                case .BinaryOperation(let symbol,_ , _):
                     return symbol
                 case .Variable(let symbol):
                     return symbol
                 }
             }
         }
+        var precedence : Int{
+            get{
+                switch self{
+                case .BinaryOperation(_ ,let precedence, _):
+                    return precedence
+                default:
+                    //Return the highest amount possible, so it will always be higher than the precedence
+                    return Int.max
+                }
+            }
+            //Default for most Values, associated value for Binary Operation
+        }
     }
-    
-    private var opStack = [Op]()
-    private var currentOpStack = [Op]()
-    private var knownOps = [String:Op]()
-    var variableValues = [String:Double]()
     
     init(){
         func learnop (op:Op){
             knownOps[op.description]=op
         }
-        knownOps["×"] = Op.BinaryOperation("×", *)
-        knownOps["÷"] = Op.BinaryOperation("÷") {$1 / $0}
-        knownOps["+"] = Op.BinaryOperation("+", +)
-        knownOps["-"] = Op.BinaryOperation("-") {$1 - $0}
+        knownOps["×"] = Op.BinaryOperation("×", 2, *)
+        knownOps["÷"] = Op.BinaryOperation("÷",2) {$1 / $0}
+        knownOps["+"] = Op.BinaryOperation("+", 1, +)
+        knownOps["-"] = Op.BinaryOperation("-",1) {$1 - $0}
         knownOps["√"] = Op.UnaryOperation("√", sqrt)
-        
+        knownOps["cos"] = Op.UnaryOperation("cos", cos)
+        knownOps["sin"] = Op.UnaryOperation("sin", sin)
     }
     
     func pushOperand( operand: Double)->Double?{
@@ -61,7 +87,6 @@ class CalculatorBrain{
     }
     
     func getCurrentOpStack() ->[Op]{
-        println("The current op stack is:  " + "\(opStack)")
         return opStack
     }
     
@@ -77,7 +102,7 @@ class CalculatorBrain{
                 if let operand = operandEvaluation.result{
                     return (operation(operand),operandEvaluation.remainingOps)
                 }
-            case .BinaryOperation (_, let operation):
+            case .BinaryOperation (_,_, let operation):
                 let op1Evaluation = evaluate(remainingOps)
                 if let operand1 = op1Evaluation.result{
                     let op2Evaluation = evaluate(op1Evaluation.remainingOps)
@@ -113,6 +138,32 @@ class CalculatorBrain{
         }
         
         return evaluate()
+    }
+    
+    func description(ops:[Op]) -> (result:String?, remainingOps:[Op], precedence: Int){
+        if !ops.isEmpty{
+            var remainingOps = ops
+            let op = remainingOps.removeLast()
+            switch op{
+            case .Operand(let value):
+                return("\(value)",remainingOps, op.precedence)
+            case .Variable(let variable):
+                return (variable, remainingOps, op.precedence)
+            case .UnaryOperation(let operation, let operand):
+                let operandEvaluation = description(remainingOps)
+            case .BinaryOperation(let operation, let precedence, let operand):
+                let op1Evaluation = description(remainingOps)
+                if let operand1 = op1Evaluation.result{
+                    let op2Evaluation = description(op1Evaluation.remainingOps)
+                    if let operand2 = op2Evaluation.result{
+                            return ("\(operand2) \(operation) \(operand1)",op2Evaluation.remainingOps,op.precedence)
+                        }
+                    
+                }
+            }
+        }
+        //Missing operand
+        return ("?",ops, Int.max)
     }
 
 }

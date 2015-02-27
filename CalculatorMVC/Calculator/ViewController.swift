@@ -104,7 +104,7 @@ class ViewController: UIViewController {
     
     func showEqualsSign(){
         if history.text!.rangeOfString("=") != nil{
-            history.text!.removeRange(history.text!.rangeOfString(", =")!)
+            history.text!.removeRange(history.text!.rangeOfString("=")!)
         }
         shouldAddToHistory = true
         addToHistory("=")
@@ -120,18 +120,19 @@ class ViewController: UIViewController {
             if let result = brain.pushOperand(displayValue!){
                 displayValue = result
             }else{
-                displayValue = 0 //Niet netjes
+                displayValue = nil
             }
         updateStackLabel()
     }
     
     func addToHistory(value : String){
         if shouldAddToHistory{
-            switch value{
-                case "\(M_PI)": history.text = history.text! + "3.14" + ", "
-                case "=": history.text = history.text! + value + ", "
-                default: history.text = history.text! + display.text! + ", "
-            }
+            history.text = brain.description != "" ? brain.description + " =" : ""
+//            switch value{
+//                case "\(M_PI)": history.text = history.text! + "3.14" + ", "
+//                case "=": history.text = history.text! + value + ", "
+//                default: history.text = history.text! + display.text! + ", "
+//            }
         }
         shouldAddToHistory = true
     }
@@ -156,10 +157,9 @@ class ViewController: UIViewController {
     
     @IBAction func clear() {
         history.text!.removeAll(keepCapacity: false)
-        
         brain = CalculatorBrain()
         stackLabel.text = "Operand stack:"
-        display.text = "0"
+        display.text = nil
     }
     
     @IBAction func backspace(sender: UIButton) {

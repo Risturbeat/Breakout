@@ -51,6 +51,11 @@
                BlueprintName = "CalculatorTests"
                ReferencedContainer = "container:Calculator.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CalculatorTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
