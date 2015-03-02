@@ -116,9 +116,7 @@ class CalculatorBrain{
                     //if so, return the value that is in there
                     return(variableValues[symbol],remainingOps)
                 }
-                
                 return (nil,remainingOps)
-                
             }
         }
         return (nil, ops)
