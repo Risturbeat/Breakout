@@ -19,7 +19,6 @@ class CalculatorBrain{
             var (result,ops) = ("",opStack)
             while ops.count > 0{
                 var current:String?
-                println("ops count  = "  + ops.count.description)
                 (current,ops, _) = description(ops)
                 result = result == "" ? current! : "\(current!), \(result)"
             }
@@ -150,13 +149,16 @@ class CalculatorBrain{
             case .Variable(let variable):
                 return (variable, remainingOps, op.precedence)
             case .UnaryOperation(let operation, let operand):
+                println("remainingOps" + remainingOps.description)
                 let operandEvaluation = description(remainingOps)
+                return ()
             case .BinaryOperation(let operation, let precedence, let operand):
                 let op1Evaluation = description(remainingOps)
                 if let operand1 = op1Evaluation.result{
                     let op2Evaluation = description(op1Evaluation.remainingOps)
                     if let operand2 = op2Evaluation.result{
-                            return ("\(operand2) \(operation) \(operand1)",op2Evaluation.remainingOps,op.precedence)
+                        
+                            return ("(\(operand2) \(operation) \(operand1))",op2Evaluation.remainingOps,op.precedence)
                         }
                     
                 }
