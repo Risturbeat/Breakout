@@ -508,7 +508,7 @@
         <!--Graph View Controller-->
         <scene sceneID="pCa-eL-kb7">
             <objects>
-                <viewController id="FeI-Nc-xaA" customClass="GraphViewController" sceneMemberID="viewController">
+                <viewController id="FeI-Nc-xaA" customClass="GraphViewController" customModule="Calculator" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hbu-Xn-j1g"/>
                         <viewControllerLayoutGuide type="bottom" id="0V2-KH-lRM"/>
@@ -520,6 +520,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lXh-fA-xNv" customClass="GraphView" customModule="Calculator" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -530,8 +531,12 @@
                             <constraint firstAttribute="trailing" secondItem="lXh-fA-xNv" secondAttribute="trailing" id="uHR-qq-DIb"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="graphView" destination="lXh-fA-xNv" id="7ek-3F-cI1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z0U-sl-ED6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="aoa-ZB-hFk"/>
             </objects>
             <point key="canvasLocation" x="423" y="-501"/>
         </scene>
