@@ -36,7 +36,6 @@ class GraphView: UIView {
         case .Ended:
             fallthrough
         case .Changed:
-            println("moving")
             let translation = sender.translationInView(self)
             graphCenter.x += translation.x
             graphCenter.y += translation.y
@@ -52,5 +51,8 @@ class GraphView: UIView {
             gesture.scale = 1
         }
     }
+    func setGraphCenterToTappedPosition(gesture:UITapGestureRecognizer){
+        println("double tap?")
+        }
 
 }

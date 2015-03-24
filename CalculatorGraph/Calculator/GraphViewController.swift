@@ -13,7 +13,15 @@ class GraphViewController: UIViewController {
         didSet{
             graphView.addGestureRecognizer(UIPinchGestureRecognizer(target: graphView, action: "scale:"))
             graphView.addGestureRecognizer(UIPanGestureRecognizer(target:graphView, action: "moveGraph:"))
+            let tapGesture = UITapGestureRecognizer(target: graphView, action:"setGraphCenterToTappedPosition:")
+            tapGesture.numberOfTapsRequired = 2
+            graphView.addGestureRecognizer(tapGesture)
+            
+            //rshankar.com/uitgesturerecognizer-in-swift
+            //graphView.addGestureRecognizer(UITapGestureRecognizer(target: graphView, action: "setGraphCenterToTappedPosition:"))
         }
     }
-    
+    func setGraphCenterToTappedPosition(gesture:UITapGestureRecognizer){
+        
+    }
 }
