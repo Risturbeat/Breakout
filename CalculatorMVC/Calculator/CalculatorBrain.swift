@@ -11,7 +11,6 @@ import Foundation
 
 class CalculatorBrain{
     private var opStack = [Op]()
-    private var currentOpStack = [Op]()
     private var knownOps = [String:Op]()
     var variableValues = [String:Double]()
     var description: String {
@@ -127,6 +126,11 @@ class CalculatorBrain{
     func evaluate() -> Double?{
         let(result, remainder) = evaluate(opStack)
         println("\(opStack) = \(result) with \(remainder) left over")
+        opStack.removeAll(keepCapacity: false)
+        for element in remainder{
+            opStack.append(element)
+        }
+        opStack.append(Op.Operand(result!))
         return result
     }
     

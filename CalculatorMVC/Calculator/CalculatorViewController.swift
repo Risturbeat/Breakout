@@ -90,6 +90,7 @@ class CalculatorViewController: UIViewController {
                 displayValue = nil
             }
             history.text = history.text! + operation + ", "
+            updateStackLabel()
         }
         shouldAddToHistory = false
         showEqualsSign()
@@ -128,16 +129,12 @@ class CalculatorViewController: UIViewController {
     func addToHistory(value : String){
         if shouldAddToHistory{
             history.text = brain.description != "" ? brain.description + " =" : ""
-//            switch value{
-//                case "\(M_PI)": history.text = history.text! + "3.14" + ", "
-//                case "=": history.text = history.text! + value + ", "
-//                default: history.text = history.text! + display.text! + ", "
-//            }
         }
         shouldAddToHistory = true
     }
     
     func updateStackLabel(){
+        println("Opstack in updatelabel \(brain.getCurrentOpStack())")
         stackLabel.text = "Operand stack: " + "\(brain.getCurrentOpStack())"
     }
     
