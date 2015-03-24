@@ -8,14 +8,26 @@
 
 import UIKit
 
+//protocol GraphViewDataSource: class{
+//    func dataForGraphView(sender:GraphView) -> Double?
+//}
 class GraphView: UIView {
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+    var axesDrawer = AxesDrawer()
+    var scale: CGFloat = 50 {didSet {setNeedsDisplay() } }
+    var graphCenter: CGPoint{
+        get{
+            return convertPoint(center, fromView:superview)
+        }
+        set{
+            setNeedsDisplay()
+        }
+    }
+    
     override func drawRect(rect: CGRect) {
         // Drawing code
+        axesDrawer.drawAxesInRect(rect, origin:graphCenter, pointsPerUnit: scale)
     }
-    */
+    
 
 }
