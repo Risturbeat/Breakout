@@ -17,15 +17,17 @@ class GraphView: UIView {
     var scale: CGFloat = 50 {didSet {setNeedsDisplay() } }
     var graphCenter: CGPoint = CGPoint(){
         didSet{
+            setGraphCenterToCenter = false
             setNeedsDisplay()
         }
     }
+    var setGraphCenterToCenter : Bool = true
     
     override func drawRect(rect: CGRect) {
         // Drawing code
-        
-        graphCenter = center
-        println(" setting center" )
+        if setGraphCenterToCenter{
+            graphCenter = center
+        }
         axesDrawer.drawAxesInRect(rect, origin:graphCenter, pointsPerUnit: scale)
     }
     
