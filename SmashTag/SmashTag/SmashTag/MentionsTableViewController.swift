@@ -9,7 +9,37 @@
 import UIKit
 
 class MentionsTableViewController: UITableViewController {
-
+    
+    //We need a Tweet variable since the information needed to display is from a Tweet
+    var tweet: Tweet?{
+        didSet{
+            title = tweet?.user.screenName //To show the user this tweet belongs to in the Title
+            //There are 4 possible mentions : Images, URLs, HashTags and Users
+            //To set the header for each section I need a "title" and the data, I stored these items in a struct
+            if let images = tweet?.media {
+                var imageData:[MentionItem] = []
+                //Get all the images represented as a MentionItem
+                for item in images{
+                    imageData.append(MentionItem.Image(item.url))
+                }
+                mentions.append(MentionInformation(title:"Images", data: imageData))
+            }
+        }
+    }
+    
+    //An array of MentionInformation (images, urls, hashtags and users)
+    var mentions:[MentionInformation] = []
+    
+    struct MentionInformation{
+        var title : String
+        var data: [MentionItem] //There is the option of storing an image or storing text, hence why I made an enum
+    }
+    
+    enum MentionItem{
+        case Text(String)
+        case Image(NSURL)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
