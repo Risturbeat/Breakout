@@ -30,7 +30,6 @@ class MentionsTableViewCell: UITableViewCell {
                         self.tweetImage?.image = UIImage(data:imageData!)
                     }
                 }
-                
             }
         }
     }

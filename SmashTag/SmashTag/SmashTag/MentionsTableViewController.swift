@@ -20,7 +20,7 @@ class MentionsTableViewController: UITableViewController {
                 //source: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
                 //Before I looped through the array of images myself and stored all the items as a MentionItem in a new array. Remembered from the classes there is a way to transform one array into another by using "map"
                 mentions.append(MentionInformation(title:"Images",
-                    data: images.map({MentionItem.Image($0.url) })))
+                    data: images.map({MentionItem.Image($0.url, $0.aspectRatio) })))
             }
             if let urls =  tweet?.urls{
                 mentions.append(MentionInformation(title:"URLs",
@@ -47,18 +47,13 @@ class MentionsTableViewController: UITableViewController {
     
     enum MentionItem{
         case Text(String)
-        case Image(NSURL)
+        case Image(NSURL, Double)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     // MARK: - Table view data source
@@ -80,17 +75,22 @@ class MentionsTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier("TextCell", forIndexPath: indexPath) as! UITableViewCell
             cell.textLabel?.text = text
             return cell
-        case .Image(let url):
+        case .Image(let url, _):
             let cell = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! MentionsTableViewCell
-            cell.image
-            return
+            cell.imageUrl = url
+            return cell
         }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-
-        return cell
+    }
+    
+    //The image has to be adapted to fit in the cell whilst holding into account the aspect ratio the image has, otherwise the image might get really distorted
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let mention = mentions[indexPath.section].data[indexPath.row]
+        switch mention{
+        case .Image(_, let aspectRatio):
+            return tableView.bounds.size.width / CGFloat(aspectRatio)
+        default:
+            return UITableViewAutomaticDimension //If it is text, let the height be calculated automatically
+        }
     }
 
     /*

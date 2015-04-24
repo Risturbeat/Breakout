@@ -110,13 +110,18 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cU5-qW-qsq" id="JnX-ZM-RL8">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7R-Oc-tyK">
-                                            <rect key="frame" x="8" y="8" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mentions" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7R-Oc-tyK">
+                                            <rect key="frame" x="8" y="8" width="584" height="20"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="leading" secondItem="JnX-ZM-RL8" secondAttribute="leadingMargin" id="2RU-q8-pfy"/>
+                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="trailing" secondItem="JnX-ZM-RL8" secondAttribute="trailingMargin" id="GSZ-Qz-MHg"/>
+                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="top" secondItem="JnX-ZM-RL8" secondAttribute="topMargin" id="mo2-rv-Kt4"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCell" rowHeight="351" id="7bz-fc-C6S" customClass="MentionsTableViewCell" customModule="SmashTag" customModuleProvider="target">
