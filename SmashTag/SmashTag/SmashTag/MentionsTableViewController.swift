@@ -17,12 +17,22 @@ class MentionsTableViewController: UITableViewController {
             //There are 4 possible mentions : Images, URLs, HashTags and Users
             //To set the header for each section I need a "title" and the data, I stored these items in a struct
             if let images = tweet?.media {
-                var imageData:[MentionItem] = []
-                //Get all the images represented as a MentionItem
-                for item in images{
-                    imageData.append(MentionItem.Image(item.url))
-                }
-                mentions.append(MentionInformation(title:"Images", data: imageData))
+                //source: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
+                //Before I looped through the array of images myself and stored all the items as a MentionItem in a new array. Remembered from the classes there is a way to transform one array into another by using "map"
+                mentions.append(MentionInformation(title:"Images",
+                    data: images.map({MentionItem.Image($0.url) })))
+            }
+            if let urls =  tweet?.urls{
+                mentions.append(MentionInformation(title:"URLs",
+                    data: urls.map({MentionItem.Text($0.keyword) }))) //keyword is declared in Tweet.swift
+            }
+            if let hashtags = tweet?.hashtags{
+                mentions.append(MentionInformation(title: "HashTags",
+                    data: hashtags.map({MentionItem.Text($0.keyword) })))
+            }
+            if let users = tweet?.userMentions{
+                mentions.append(MentionInformation(title: "Users",
+                    data: users.map({MentionItem.Text($0.keyword) })))
             }
         }
     }
@@ -32,7 +42,7 @@ class MentionsTableViewController: UITableViewController {
     
     struct MentionInformation{
         var title : String
-        var data: [MentionItem] //There is the option of storing an image or storing text, hence why I made an enum
+        var data: [MentionItem] //There is the possibility of storing an image or storing text, hence why I made an enum
     }
     
     enum MentionItem{
@@ -42,7 +52,8 @@ class MentionsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.estimatedRowHeight = tableView.rowHeight
+        tableView.rowHeight = UITableViewAutomaticDimension
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -53,14 +64,28 @@ class MentionsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return mentions.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return mentions[section].data.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        //Which kind of mention is it? An Image or Text?
+        let mention = mentions[indexPath.section].data[indexPath.row]
+        
+        switch mention{
+        case .Text(let text):
+            let cell = tableView.dequeueReusableCellWithIdentifier("TextCell", forIndexPath: indexPath) as! UITableViewCell
+            cell.textLabel?.text = text
+            return cell
+        case .Image(let url):
+            let cell = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! MentionsTableViewCell
+            cell.image
+            return
+        }
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
