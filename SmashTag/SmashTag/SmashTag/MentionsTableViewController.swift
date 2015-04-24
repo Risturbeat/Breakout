@@ -19,20 +19,28 @@ class MentionsTableViewController: UITableViewController {
             if let images = tweet?.media {
                 //source: https://www.weheartswift.com/higher-order-functions-map-filter-reduce-and-more/
                 //Before I looped through the array of images myself and stored all the items as a MentionItem in a new array. Remembered from the classes there is a way to transform one array into another by using "map"
-                mentions.append(MentionInformation(title:"Images",
+                if images.count > 0{
+                    mentions.append(MentionInformation(title:"Images",
                     data: images.map({MentionItem.Image($0.url, $0.aspectRatio) })))
+                }
             }
             if let urls =  tweet?.urls{
-                mentions.append(MentionInformation(title:"URLs",
+                if urls.count > 0{
+                    mentions.append(MentionInformation(title:"URLs",
                     data: urls.map({MentionItem.Text($0.keyword) }))) //keyword is declared in Tweet.swift
+                }
             }
             if let hashtags = tweet?.hashtags{
-                mentions.append(MentionInformation(title: "HashTags",
+                if hashtags.count > 0{
+                    mentions.append(MentionInformation(title: "HashTags",
                     data: hashtags.map({MentionItem.Text($0.keyword) })))
+                }
             }
             if let users = tweet?.userMentions{
-                mentions.append(MentionInformation(title: "Users",
+                if users.count > 0{
+                    mentions.append(MentionInformation(title: "Users",
                     data: users.map({MentionItem.Text($0.keyword) })))
+                }
             }
         }
     }
@@ -91,6 +99,10 @@ class MentionsTableViewController: UITableViewController {
         default:
             return UITableViewAutomaticDimension //If it is text, let the height be calculated automatically
         }
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+       return mentions[section].title
     }
 
     /*

@@ -110,30 +110,39 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cU5-qW-qsq" id="JnX-ZM-RL8">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mentions" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7R-Oc-tyK">
-                                            <rect key="frame" x="8" y="8" width="584" height="20"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7R-Oc-tyK">
+                                            <rect key="frame" x="8" y="8" width="584" height="0.0"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="WuG-YI-0Me"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="leading" secondItem="JnX-ZM-RL8" secondAttribute="leadingMargin" id="2RU-q8-pfy"/>
-                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="trailing" secondItem="JnX-ZM-RL8" secondAttribute="trailingMargin" id="GSZ-Qz-MHg"/>
-                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="top" secondItem="JnX-ZM-RL8" secondAttribute="topMargin" id="mo2-rv-Kt4"/>
+                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="leading" secondItem="JnX-ZM-RL8" secondAttribute="leadingMargin" id="qzr-qq-3qJ"/>
+                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="trailing" secondItem="JnX-ZM-RL8" secondAttribute="trailingMargin" id="vqs-hm-Nu3"/>
+                                        <constraint firstItem="D7R-Oc-tyK" firstAttribute="top" secondItem="JnX-ZM-RL8" secondAttribute="topMargin" id="zCb-7L-EFt"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCell" rowHeight="351" id="7bz-fc-C6S" customClass="MentionsTableViewCell" customModule="SmashTag" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCell" rowHeight="299" id="7bz-fc-C6S" customClass="MentionsTableViewCell" customModule="SmashTag" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7bz-fc-C6S" id="t11-sg-tXO">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zTf-lH-Lb9">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="443"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zTf-lH-Lb9">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="289"/>
                                         </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="zTf-lH-Lb9" secondAttribute="trailing" constant="-8" id="Eqi-Ge-d6g"/>
+                                        <constraint firstItem="zTf-lH-Lb9" firstAttribute="leading" secondItem="t11-sg-tXO" secondAttribute="leadingMargin" constant="-8" id="aLR-Iz-bUq"/>
+                                        <constraint firstItem="zTf-lH-Lb9" firstAttribute="top" secondItem="t11-sg-tXO" secondAttribute="topMargin" constant="-8" id="eXz-Rd-e6v"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="zTf-lH-Lb9" secondAttribute="bottom" constant="1" id="tAn-FV-bag"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="tweetImage" destination="zTf-lH-Lb9" id="o1i-v6-sXo"/>
