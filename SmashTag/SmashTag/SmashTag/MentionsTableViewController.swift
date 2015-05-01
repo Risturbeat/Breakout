@@ -44,7 +44,6 @@ class MentionsTableViewController: UITableViewController {
             }
         }
     }
-    var textOfSelectedItem : String = "Error"
     
     //An array of MentionInformation (images, urls, hashtags and users)
     var mentions:[MentionInformation] = []
@@ -115,14 +114,30 @@ class MentionsTableViewController: UITableViewController {
     
     //source: http://stackoverflow.com/questions/26158768/how-to-get-textlabel-of-selected-row-in-swift
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
         let currentCell = tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell!
         let section = indexPath.section
         let title = mentions[section].title
-        if title == "Users"  || title == "HashTags" {
-            textOfSelectedItem = mentions[section].data.description
+        if title == "URLs" {
+            UIApplication.sharedApplication().openURL(mentions[section].data.description)
         }
+        
+    }
+    
+    // MARK: - Navigation
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //     Get the new view controller using [segue destinationViewController].
+        //     Pass the selected object to the new view controller.
+        if let identifier = segue.identifier{
+            if identifier == "UserOrHashTagSelected"{
+                if let destination = segue.destinationViewController as? TweetTableViewController{
+                    if let selectedCell = sender as? UITableViewCell{
+                            destination.searchText = selectedCell.textLabel?.text
+                        }
+                    }
+                
+            }
+        }
     }
 
     /*
@@ -159,16 +174,5 @@ class MentionsTableViewController: UITableViewController {
         return true
     }
     */
-
-    
-    // MARK: - Navigation
-
-//     In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     //    Get the new view controller using [segue destinationViewController].
-//         Pass the selected object to the new view controller.
-//        var destination = segue.destinationViewController as? TweetTableViewController
-    
-//    }
 
 }

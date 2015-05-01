@@ -127,7 +127,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="ArD-3C-9MU" kind="unwind" unwindAction="prepareForUnwind:sender:" id="MCw-79-9RU"/>
+                                    <segue destination="T6q-vn-DEV" kind="show" identifier="UserOrHashTagSelected" id="QDN-Dm-Gmf"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCell" rowHeight="299" id="7bz-fc-C6S" customClass="MentionsTableViewImageCell" customModule="SmashTag" customModuleProvider="target">
@@ -159,7 +159,6 @@
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IFv-mO-sWm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="ArD-3C-9MU" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1006" y="1145"/>
         </scene>
@@ -182,4 +181,7 @@
             <point key="canvasLocation" x="202" y="300"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="QDN-Dm-Gmf"/>
+    </inferredMetricsTieBreakers>
 </document>
