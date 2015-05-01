@@ -127,7 +127,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="T6q-vn-DEV" kind="show" identifier="UserOrHashTagSelected" id="QDN-Dm-Gmf"/>
+                                    <segue destination="T6q-vn-DEV" kind="show" identifier="TextCell Selected" id="QDN-Dm-Gmf"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCell" rowHeight="299" id="7bz-fc-C6S" customClass="MentionsTableViewImageCell" customModule="SmashTag" customModuleProvider="target">

@@ -65,6 +65,12 @@ class MentionsTableViewController: UITableViewController {
         }
     }
     
+    private struct Storyboard{
+        static let TextCellReuseIdentifier = "TextCell"
+        static let ImageCellReuseIdentifier = "ImageCell"
+        static let TextCellSelectedSegueIdentifier = "TextCell Selected"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = tableView.rowHeight
@@ -87,11 +93,11 @@ class MentionsTableViewController: UITableViewController {
         
         switch mention{
         case .Text(let text):
-            let cell = tableView.dequeueReusableCellWithIdentifier("TextCell", forIndexPath: indexPath) as! UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.TextCellReuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
             cell.textLabel?.text = text
             return cell
         case .Image(let url, _):
-            let cell = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! MentionsTableViewImageCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ImageCellReuseIdentifier, forIndexPath: indexPath) as! MentionsTableViewImageCell
             cell.imageUrl = url
             return cell
         }
@@ -111,31 +117,27 @@ class MentionsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
        return mentions[section].title
     }
-    
-    //source: http://stackoverflow.com/questions/26158768/how-to-get-textlabel-of-selected-row-in-swift
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let currentCell = tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell!
-        let section = indexPath.section
-        let title = mentions[section].title
-        if title == "URLs" {
-            UIApplication.sharedApplication().openURL(mentions[section].data.description)
-        }
-        
-    }
-    
+     
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //     Get the new view controller using [segue destinationViewController].
         //     Pass the selected object to the new view controller.
         if let identifier = segue.identifier{
-            if identifier == "UserOrHashTagSelected"{
+            if identifier == Storyboard.TextCellSelectedSegueIdentifier{
                 if let destination = segue.destinationViewController as? TweetTableViewController{
                     if let selectedCell = sender as? UITableViewCell{
-                            destination.searchText = selectedCell.textLabel?.text
+                        //Check whether or not the selected cell contains an URL : URL's all start with http. HashTags or Users never do
+                        if let url = selectedCell.textLabel?.text{
+                            if url.hasPrefix("http"){
+                                UIApplication.sharedApplication().openURL(NSURL(string:url)!)
+                            }else{
+                                destination.searchText = selectedCell.textLabel?.text
+                            }
                         }
+                    
                     }
-                
+                }
             }
         }
     }
