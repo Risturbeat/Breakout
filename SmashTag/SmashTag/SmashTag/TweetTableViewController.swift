@@ -9,13 +9,12 @@
 import UIKit
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
-    
-    var tweets = [[Tweet]]()
+        var tweets = [[Tweet]]()
     var searchText: String? = "#stanford" {
         didSet{
             lastSuccesfulRequest = nil
             searchTextField?.text = searchText
-            tweets.removeAll()
+                        tweets.removeAll()
             tableView.reloadData()
             refresh()
         }
@@ -49,6 +48,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     @IBAction func refresh(sender: UIRefreshControl?) {
+        RecentSearches().addSearch(searchText!)
+
         if let request = nextRequestToAttempt{
             request.fetchTweets{(newTweets) -> Void in
                 dispatch_async(dispatch_get_main_queue()) { () -> Void in
@@ -154,9 +155,12 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //     Get the new view controller using [segue destinationViewController].
         //     Pass the selected object to the new view controller.
-        var destination = segue.destinationViewController as? MentionsTableViewController
-        if let cellOfTweet = sender as? TweetTableViewCell{
-            destination?.tweet = cellOfTweet.tweet
+  
+        if segue.identifier == "Show Details"{
+            var destination = segue.destinationViewController as? MentionsTableViewController
+            if let cellOfTweet = sender as? TweetTableViewCell{
+                destination?.tweet = cellOfTweet.tweet
+            }
         }
     }
     

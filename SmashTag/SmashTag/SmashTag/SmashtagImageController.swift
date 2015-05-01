@@ -18,6 +18,7 @@ class SmashtagImageController: UIViewController, UIScrollViewDelegate{
             imageView.image = newValue
             imageView.sizeToFit()
             scrollView?.contentSize = imageView.frame.size
+            scale()
         }
     }
     
@@ -29,7 +30,16 @@ class SmashtagImageController: UIViewController, UIScrollViewDelegate{
             scrollView.maximumZoomScale = 5.0             // required for zooming
         }
     }
-
+    
+    func scale(){
+        //source: http://www.raywenderlich.com/76436/use-uiscrollview-scroll-zoom-content-swift
+        if let scrollViewFrame = scrollView?.frame{
+            let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+            let scaleHeight = scrollViewFrame.size.height  / scrollView.contentSize.height
+            scrollView.zoomScale = max(scaleWidth, scaleHeight)
+            centerScrollViewContents()
+        }
+    }
    
     // UIScrollViewDelegate method
     // required for zooming
@@ -42,17 +52,7 @@ class SmashtagImageController: UIViewController, UIScrollViewDelegate{
     // (will install it into the content area of the scroll view)
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         scrollView.addSubview(imageView)
-        
-        //source: http://www.raywenderlich.com/76436/use-uiscrollview-scroll-zoom-content-swift
-        let scrollViewFrame = scrollView.frame
-        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-        let scaleHeight = scrollViewFrame.size.height  / scrollView.contentSize.height
-        
-        
-        scrollView.zoomScale = max(scaleWidth, scaleHeight)
-        centerScrollViewContents()
     }
     
     func centerScrollViewContents() {
@@ -72,5 +72,9 @@ class SmashtagImageController: UIViewController, UIScrollViewDelegate{
         }
         
         imageView.frame = contentsFrame
+    }
+    override func viewDidLayoutSubviews(){
+        super.viewDidLayoutSubviews()
+        scale()
     }
 }
