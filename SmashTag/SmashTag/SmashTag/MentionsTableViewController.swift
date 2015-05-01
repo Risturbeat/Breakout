@@ -69,6 +69,7 @@ class MentionsTableViewController: UITableViewController {
         static let TextCellReuseIdentifier = "TextCell"
         static let ImageCellReuseIdentifier = "ImageCell"
         static let TextCellSelectedSegueIdentifier = "TextCell Selected"
+        static let ImageCellSelectedSegueIdentifier = "ImageCell Selected"
     }
     
     override func viewDidLoad() {
@@ -135,7 +136,12 @@ class MentionsTableViewController: UITableViewController {
                                 destination.searchText = selectedCell.textLabel?.text
                             }
                         }
-                    
+                    }
+                }
+            }else if identifier == Storyboard.ImageCellSelectedSegueIdentifier{
+                if let destination = segue.destinationViewController as? SmashtagImageController{
+                    if let selectedCell = sender as? MentionsTableViewImageCell{
+                        destination.image = selectedCell.tweetImage?.image
                     }
                 }
             }

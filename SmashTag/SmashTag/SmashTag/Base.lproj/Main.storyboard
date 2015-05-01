@@ -96,6 +96,38 @@
             </objects>
             <point key="canvasLocation" x="1006" y="300"/>
         </scene>
+        <!--Smashtag Image Controller-->
+        <scene sceneID="cBU-L0-iAp">
+            <objects>
+                <viewController id="IZ9-ln-erd" customClass="SmashtagImageController" customModule="SmashTag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hyz-dL-R9W"/>
+                        <viewControllerLayoutGuide type="bottom" id="uNb-Uw-75u"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2f2-iA-m89">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Fj-ie-9ph">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="9Fj-ie-9ph" secondAttribute="trailing" id="2m0-ae-sqX"/>
+                            <constraint firstItem="9Fj-ie-9ph" firstAttribute="bottom" secondItem="uNb-Uw-75u" secondAttribute="top" id="Mqb-dO-bfH"/>
+                            <constraint firstItem="9Fj-ie-9ph" firstAttribute="leading" secondItem="2f2-iA-m89" secondAttribute="leading" id="N56-a6-Ycs"/>
+                            <constraint firstItem="9Fj-ie-9ph" firstAttribute="top" secondItem="2f2-iA-m89" secondAttribute="top" id="e2x-ZC-PTc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="9Fj-ie-9ph" id="5h6-ve-FJY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vCa-Lk-fMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1012" y="1943"/>
+        </scene>
         <!--Mentions Table View Controller-->
         <scene sceneID="eWV-zc-6zr">
             <objects>
@@ -149,6 +181,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="tweetImage" destination="zTf-lH-Lb9" id="o1i-v6-sXo"/>
+                                    <segue destination="IZ9-ln-erd" kind="show" identifier="ImageCell Selected" id="Y1J-S2-Sad"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -160,7 +193,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IFv-mO-sWm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1006" y="1145"/>
+            <point key="canvasLocation" x="1012" y="1143"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dTV-Xa-t2t">

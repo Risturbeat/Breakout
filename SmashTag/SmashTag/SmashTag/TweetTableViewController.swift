@@ -163,9 +163,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 //    @IBAction func prepareForUnwind(segue: UIStoryboardSegue, sender: AnyObject?){
 //        let source = segue.sourceViewController as? MentionsTableViewController
 //        let title = source?.mentions[0].title
-////        var alert = UIAlertController(title: title, message: source?.mentions[0].data.description, preferredStyle: UIAlertControllerStyle.Alert)
-////        alert.addAction(UIAlertAction(title: "Working!!", style: UIAlertActionStyle.Default, handler: nil))
-////        self.presentViewController(alert, animated: true, completion: nil)
+//        var alert = UIAlertController(title: title, message: source?.mentions[0].data.description, preferredStyle: UIAlertControllerStyle.Alert)
+//        alert.addAction(UIAlertAction(title: "Working!!", style: UIAlertActionStyle.Default, handler: nil))
+//        self.presentViewController(alert, animated: true, completion: nil)
 //        if title == "Users" || title == "HashTags"{
 //            searchText = source?.textOfSelectedItem
 //        }

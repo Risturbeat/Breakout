@@ -20,6 +20,7 @@
 		3F7E8DB71AEA431A004C9C2E /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DB61AEA431A004C9C2E /* TweetTableViewCell.swift */; };
 		3F7E8DB91AEA6749004C9C2E /* MentionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DB81AEA6749004C9C2E /* MentionsTableViewController.swift */; };
 		3F7E8DBB1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift */; };
+		3FE4AE621AF3817300637B77 /* SmashtagImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4AE611AF3817300637B77 /* SmashtagImageController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		3F7E8DB61AEA431A004C9C2E /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		3F7E8DB81AEA6749004C9C2E /* MentionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewController.swift; sourceTree = "<group>"; };
 		3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewImageCell.swift; sourceTree = "<group>"; };
+		3FE4AE611AF3817300637B77 /* SmashtagImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmashtagImageController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift */,
 				3F7E8DB61AEA431A004C9C2E /* TweetTableViewCell.swift */,
 				3F7E8DA01AEA3633004C9C2E /* TweetTableViewController.swift */,
+				3FE4AE611AF3817300637B77 /* SmashtagImageController.swift */,
 				3F7E8DAD1AEA3BA6004C9C2E /* Twitter */,
 				3F7E8D7E1AEA35D2004C9C2E /* Supporting Files */,
 			);
@@ -250,6 +253,7 @@
 				3F7E8DB41AEA3BA6004C9C2E /* TwitterRequest.swift in Sources */,
 				3F7E8DB51AEA3BA6004C9C2E /* User.swift in Sources */,
 				3F7E8DB71AEA431A004C9C2E /* TweetTableViewCell.swift in Sources */,
+				3FE4AE621AF3817300637B77 /* SmashtagImageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
