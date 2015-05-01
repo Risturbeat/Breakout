@@ -147,18 +147,28 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     */
     
-
+    
     // MARK: - Navigation
     
-//     In a storyboard-based application, you will often want to do a little preparation before navigation
+    //     In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//     Get the new view controller using [segue destinationViewController].
-//     Pass the selected object to the new view controller.
+        //     Get the new view controller using [segue destinationViewController].
+        //     Pass the selected object to the new view controller.
         var destination = segue.destinationViewController as? MentionsTableViewController
         if let cellOfTweet = sender as? TweetTableViewCell{
             destination?.tweet = cellOfTweet.tweet
         }
     }
     
-    
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue, sender: AnyObject?){
+        let source = segue.sourceViewController as? MentionsTableViewController
+        let title = source?.mentions[0].title
+//        var alert = UIAlertController(title: title, message: source?.mentions[0].data.description, preferredStyle: UIAlertControllerStyle.Alert)
+//        alert.addAction(UIAlertAction(title: "Working!!", style: UIAlertActionStyle.Default, handler: nil))
+//        self.presentViewController(alert, animated: true, completion: nil)
+        if title == "Users" || title == "HashTags"{
+            searchText = source?.textOfSelectedItem
+            refresh()
+        }
+    }
 }

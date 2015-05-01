@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MentionsTableViewCell: UITableViewCell {
+class MentionsTableViewImageCell: UITableViewCell {
     
     @IBOutlet weak var tweetImage: UIImageView!
     

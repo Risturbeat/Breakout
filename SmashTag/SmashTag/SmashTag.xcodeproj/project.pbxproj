@@ -19,7 +19,7 @@
 		3F7E8DB51AEA3BA6004C9C2E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DB11AEA3BA6004C9C2E /* User.swift */; };
 		3F7E8DB71AEA431A004C9C2E /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DB61AEA431A004C9C2E /* TweetTableViewCell.swift */; };
 		3F7E8DB91AEA6749004C9C2E /* MentionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DB81AEA6749004C9C2E /* MentionsTableViewController.swift */; };
-		3F7E8DBB1AEA6C2F004C9C2E /* MentionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewCell.swift */; };
+		3F7E8DBB1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,7 @@
 		3F7E8DB11AEA3BA6004C9C2E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3F7E8DB61AEA431A004C9C2E /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		3F7E8DB81AEA6749004C9C2E /* MentionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewController.swift; sourceTree = "<group>"; };
-		3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewCell.swift; sourceTree = "<group>"; };
+		3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MentionsTableViewImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +93,7 @@
 			children = (
 				3F7E8D841AEA35D2004C9C2E /* Main.storyboard */,
 				3F7E8DB81AEA6749004C9C2E /* MentionsTableViewController.swift */,
-				3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewCell.swift */,
+				3F7E8DBA1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift */,
 				3F7E8DB61AEA431A004C9C2E /* TweetTableViewCell.swift */,
 				3F7E8DA01AEA3633004C9C2E /* TweetTableViewController.swift */,
 				3F7E8DAD1AEA3BA6004C9C2E /* Twitter */,
@@ -241,7 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F7E8DBB1AEA6C2F004C9C2E /* MentionsTableViewCell.swift in Sources */,
+				3F7E8DBB1AEA6C2F004C9C2E /* MentionsTableViewImageCell.swift in Sources */,
 				3F7E8DB91AEA6749004C9C2E /* MentionsTableViewController.swift in Sources */,
 				3F7E8DA11AEA3633004C9C2E /* TweetTableViewController.swift in Sources */,
 				3F7E8DB31AEA3BA6004C9C2E /* Tweet.swift in Sources */,
@@ -447,6 +447,7 @@
 				3F7E8D9C1AEA35D2004C9C2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3F7E8D9D1AEA35D2004C9C2E /* Build configuration list for PBXNativeTarget "SmashTagTests" */ = {
 			isa = XCConfigurationList;
@@ -455,6 +456,7 @@
 				3F7E8D9F1AEA35D2004C9C2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

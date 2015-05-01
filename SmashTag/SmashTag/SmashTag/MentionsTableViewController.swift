@@ -44,6 +44,7 @@ class MentionsTableViewController: UITableViewController {
             }
         }
     }
+    var textOfSelectedItem : String = "Error"
     
     //An array of MentionInformation (images, urls, hashtags and users)
     var mentions:[MentionInformation] = []
@@ -53,9 +54,16 @@ class MentionsTableViewController: UITableViewController {
         var data: [MentionItem] //There is the possibility of storing an image or storing text, hence why I made an enum
     }
     
-    enum MentionItem{
+    enum MentionItem : Printable{
         case Text(String)
         case Image(NSURL, Double)
+        
+        var description: String {
+            switch self {
+            case .Text(let textString): return textString
+            case .Image(let url, _): return url.path!
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -84,7 +92,7 @@ class MentionsTableViewController: UITableViewController {
             cell.textLabel?.text = text
             return cell
         case .Image(let url, _):
-            let cell = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! MentionsTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("ImageCell", forIndexPath: indexPath) as! MentionsTableViewImageCell
             cell.imageUrl = url
             return cell
         }
@@ -103,6 +111,18 @@ class MentionsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
        return mentions[section].title
+    }
+    
+    //source: http://stackoverflow.com/questions/26158768/how-to-get-textlabel-of-selected-row-in-swift
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        let currentCell = tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell!
+        let section = indexPath.section
+        let title = mentions[section].title
+        if title == "Users"  || title == "HashTags" {
+            textOfSelectedItem = mentions[section].data.description
+        }
+
     }
 
     /*
@@ -140,14 +160,15 @@ class MentionsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
+//     In a storyboard-based application, you will often want to do a little preparation before navigation
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     //    Get the new view controller using [segue destinationViewController].
+//         Pass the selected object to the new view controller.
+//        var destination = segue.destinationViewController as? TweetTableViewController
+    
+//    }
 
 }
