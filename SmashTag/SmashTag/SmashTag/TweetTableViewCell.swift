@@ -54,15 +54,18 @@ class TweetTableViewCell: UITableViewCell {
                 colouredText.addAttribute(NSForegroundColorAttributeName, value: mentionColour, range: mention.nsrange)
             }
             
-            //tweetTextLabel?.text cannot be used since the colouredText is not a normal string, but an attributed string
-            tweetTextLabel?.attributedText = colouredText
+//            colouredText.appendAttributedString(<#attrString: NSAttributedString#>)
             
-            tweetTextLabel?.text = tweet.text
-            if tweetTextLabel?.text != nil  {
+            //tweetTextLabel?.text cannot be used since the colouredText is not a normal string, but an attributed string
+            
+tweetTextLabel?.attributedText = colouredText
+//            tweetTextLabel?.text = tweet.text
+            if tweetTextLabel.attributedText != nil{
                 for _ in tweet.media {
-                    tweetTextLabel.text! += " 📷"
+                    colouredText.appendAttributedString(NSAttributedString(string: " 📷"))
                 }
             }
+            tweetTextLabel?.attributedText = colouredText
             
            
             
