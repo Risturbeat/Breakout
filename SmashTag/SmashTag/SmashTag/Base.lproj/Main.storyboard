@@ -46,6 +46,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="T6q-vn-DEV" kind="show" identifier="Search Using Recent Search" id="RcH-TU-whN"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -153,13 +156,13 @@
         <!--Smashtag Image Controller-->
         <scene sceneID="cBU-L0-iAp">
             <objects>
-                <viewController id="IZ9-ln-erd" customClass="SmashtagImageController" customModule="SmashTag" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="IZ9-ln-erd" customClass="SmashtagImageController" customModule="SmashTag" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hyz-dL-R9W"/>
                         <viewControllerLayoutGuide type="bottom" id="uNb-Uw-75u"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2f2-iA-m89">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fj-ie-9ph">
@@ -174,6 +177,7 @@
                             <constraint firstItem="9Fj-ie-9ph" firstAttribute="top" secondItem="2f2-iA-m89" secondAttribute="top" id="e2x-ZC-PTc"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="scrollView" destination="9Fj-ie-9ph" id="5h6-ve-FJY"/>
                     </connections>
@@ -289,6 +293,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dhQ-Tn-9Uw"/>
+        <segue reference="RcH-TU-whN"/>
     </inferredMetricsTieBreakers>
 </document>

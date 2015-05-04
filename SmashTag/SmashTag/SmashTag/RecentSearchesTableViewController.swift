@@ -20,6 +20,12 @@ class RecentSearchesTableViewController: UITableViewController {
         static let CellReuseIdentifier = "Search History Cell"
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+    }
+    
+    
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -35,7 +41,32 @@ class RecentSearchesTableViewController: UITableViewController {
 
         return cell
     }
+
+//    source: http://www.ioscreator.com/tutorials/delete-rows-table-view-ios8-swift
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            RecentSearches().deleteSearch(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
+    }
     
+    //MARK: - Navigation
+    
+    //In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //      Get the new view controller using [segue destinationViewController].
+        //    Pass the selected object to the new view controller.
+        
+        if let identifier = segue.identifier{
+            if identifier == "Search Using Recent Search"{
+                if let destination = segue.destinationViewController as? TweetTableViewController{
+                    if let selectedCell = sender as? UITableViewCell{
+                        destination.searchText = selectedCell.textLabel?.text
+                    }
+                }
+            }
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -72,14 +103,6 @@ class RecentSearchesTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
+    
 }

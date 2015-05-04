@@ -9,12 +9,13 @@
 import UIKit
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
-        var tweets = [[Tweet]]()
+    var tweets = [[Tweet]]()
+    var initialLoad: Bool = true
     var searchText: String? = "#stanford" {
         didSet{
             lastSuccesfulRequest = nil
             searchTextField?.text = searchText
-                        tweets.removeAll()
+            tweets.removeAll()
             tableView.reloadData()
             refresh()
         }
@@ -40,6 +41,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
         refresh()
+        initialLoad = false
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -48,8 +50,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     @IBAction func refresh(sender: UIRefreshControl?) {
-        RecentSearches().addSearch(searchText!)
-
+        if(!initialLoad){
+            RecentSearches().addSearch(searchText!)
+        }
         if let request = nextRequestToAttempt{
             request.fetchTweets{(newTweets) -> Void in
                 dispatch_async(dispatch_get_main_queue()) { () -> Void in

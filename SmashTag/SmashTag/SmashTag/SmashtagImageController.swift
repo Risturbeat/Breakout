@@ -17,7 +17,6 @@ class SmashtagImageController: UIViewController, UIScrollViewDelegate{
         set {
             imageView.image = newValue
             imageView.sizeToFit()
-            scrollView?.contentSize = imageView.frame.size
             scale()
         }
     }
@@ -34,8 +33,8 @@ class SmashtagImageController: UIViewController, UIScrollViewDelegate{
     func scale(){
         //source: http://www.raywenderlich.com/76436/use-uiscrollview-scroll-zoom-content-swift
         if let scrollViewFrame = scrollView?.frame{
-            let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-            let scaleHeight = scrollViewFrame.size.height  / scrollView.contentSize.height
+            let scaleWidth = scrollView.bounds.size.width / image!.size.width
+            let scaleHeight = scrollView.bounds.size.height / image!.size.height
             scrollView.zoomScale = max(scaleWidth, scaleHeight)
             centerScrollViewContents()
         }

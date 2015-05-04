@@ -30,4 +30,8 @@ class RecentSearches{
         }
         recentSearches = currentSearches
     }
+    
+    func deleteSearch(index : Int){
+        recentSearches.removeAtIndex(index)
+    }
 }

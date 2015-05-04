@@ -14,6 +14,7 @@ class MentionsTableViewController: UITableViewController {
     var tweet: Tweet?{
         didSet{
             title = tweet?.user.screenName //To show the user this tweet belongs to in the Title
+            
             //There are 4 possible mentions : Images, URLs, HashTags and Users
             //To set the header for each section I need a "title" and the data, I stored these items in a struct
             if let images = tweet?.media {
