@@ -154,6 +154,7 @@ class CalculatorViewController: UIViewController {
                 display.text = " "
             }
         }
+        
     }
     
     @IBAction func clear() {
@@ -165,25 +166,25 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func backspace(sender: UIButton) {
         display.text = dropLast(display.text!)
-        if countElements(display.text!) < 1 {
+        if count(display.text!) < 1 {
             display.text = "0"
             userIsTypingANumber = false
         }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var destination = segue.destinationViewController as? UIViewController
-        // this next if-statement makes sure the segue prepares properly even
-        //   if the MVC we're seguing to is wrapped in a UINavigationController
-        if let navCon = destination as? UINavigationController {
-            destination = navCon.visibleViewController
-        }
-        if let hvc = destination as? GraphViewController{
-//            if let identifier = segue.identifier {
-//               
-//            }
+        if let identifier = segue.identifier {
+            if identifier == "Show Graph"{
+                if let destination = segue.destinationViewController as? GraphViewController{
+                    if description == "" {
+                        destination.title = "Graph"
+                    }else{
+                        destination.title = brain.description
+                    }
+                    destination.whatToDraw = brain.program
+                }
+            }
         }
     }
-
 }
 

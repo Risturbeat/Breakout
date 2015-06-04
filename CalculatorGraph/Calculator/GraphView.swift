@@ -8,12 +8,16 @@
 
 import UIKit
 
-//protocol GraphViewDataSource: class{
-//    func dataForGraphView(sender:GraphView) -> Double?
-//}
-class GraphView: UIView {
+protocol GraphViewDataSource: class{
+    func y(x: CGFloat) -> CGFloat?
+}
 
-    var axesDrawer = AxesDrawer()
+@IBDesignable
+class GraphView: UIView {
+    
+    weak var dataSource : GraphViewDataSource?
+    
+    @IBInspectable
     var scale: CGFloat = 50 {didSet {setNeedsDisplay() } }
     var graphCenter: CGPoint = CGPoint(){
         didSet{
@@ -21,14 +25,49 @@ class GraphView: UIView {
             setNeedsDisplay()
         }
     }
-    var setGraphCenterToCenter : Bool = true
+
+    
+    var lineWidth: CGFloat = 2.0{ didSet { setNeedsDisplay() } }
+    var color: UIColor = UIColor.redColor() { didSet { setNeedsDisplay() } }
+    
+    var setGraphCenterToCenter : Bool = true { didSet { if setGraphCenterToCenter{ setNeedsDisplay() } } }
     
     override func drawRect(rect: CGRect) {
         // Drawing code
         if setGraphCenterToCenter{
             graphCenter = center
         }
-        axesDrawer.drawAxesInRect(rect, origin:graphCenter, pointsPerUnit: scale)
+        
+        AxesDrawer(contentScaleFactor: contentScaleFactor).drawAxesInRect(bounds, origin:graphCenter, pointsPerUnit: scale)
+        
+        color.set()
+        let path = UIBezierPath()
+        path.lineWidth = lineWidth
+        
+        var firstValidValue = true
+        var point = CGPoint() // I need a point to draw to
+      
+        
+        for var i = 0; i <= Int(bounds.size.width * contentScaleFactor); i++ {
+            point.x = CGFloat(i) / contentScaleFactor // Keeping in mind the scale factor that is used everywhere
+            if let y = dataSource?.y((point.x - graphCenter.x) / scale){  //I have to provide an "x", but I have to respect the origin and take into account the scale
+                if !y.isNormal && !y.isZero {
+                    firstValidValue = true
+                    continue
+                }
+                point.y = graphCenter.y - y * scale //Again respect the origin and take into account te scale
+                if firstValidValue {
+                    path.moveToPoint(point)
+                    firstValidValue = false
+                }else{
+                    path.addLineToPoint(point)
+                }
+            }else{
+                firstValidValue = true
+            }
+        }
+        path.stroke()
+        
     }
     
     func moveGraph(sender: UIPanGestureRecognizer) {
@@ -45,14 +84,16 @@ class GraphView: UIView {
         }
     }
     
-    func scale(gesture: UIPinchGestureRecognizer){
-        if gesture.state == .Changed{
-            scale *= gesture.scale
-            gesture.scale = 1
+    func scale(sender: UIPinchGestureRecognizer){
+        if sender.state == .Changed{
+            scale *= sender.scale
+            sender.scale = 1
         }
     }
-    func setGraphCenterToTappedPosition(gesture:UITapGestureRecognizer){
-        println("double tap?")
+    func setGraphCenterToTappedPosition(sender:UITapGestureRecognizer){
+        if sender.state == .Ended{
+            graphCenter = sender.locationInView(self)
         }
+    }
 
 }

@@ -12,13 +12,15 @@ import Foundation
 class CalculatorBrain{
     private var opStack = [Op]()
     private var knownOps = [String:Op]()
+    
     var variableValues = [String:Double]()
+    
     var description: String {
         get{
             var (result,ops) = ("",opStack)
             while ops.count > 0{
                 var current:String?
-                (current,ops, _) = description(ops)
+                (current,ops) = description(ops)
                 result = result == "" ? current! : "\(current!), \(result)"
             }
             return result
@@ -47,21 +49,10 @@ class CalculatorBrain{
                 }
             }
         }
-        var precedence : Int{
-            get{
-                switch self{
-                case .BinaryOperation(_ ,let precedence, _):
-                    return precedence
-                default:
-                    //Return the highest amount possible, so it will always be higher than the precedence
-                    return Int.max
-                }
-            }
-            //Default for most Values, associated value for Binary Operation
-        }
     }
     
-    var program: AnyObject{
+    typealias PropertyList = AnyObject
+    var program: PropertyList{
         get{
             return opStack.map { $0.description}
         }set{
@@ -143,11 +134,6 @@ class CalculatorBrain{
     func evaluate() -> Double?{
         let(result, remainder) = evaluate(opStack)
         println("\(opStack) = \(result) with \(remainder) left over")
-        opStack.removeAll(keepCapacity: false)
-        for element in remainder{
-            opStack.append(element)
-        }
-        opStack.append(Op.Operand(result!))
         return result
     }
     
@@ -159,33 +145,33 @@ class CalculatorBrain{
         return evaluate()
     }
     
-    func description(ops:[Op]) -> (result:String?, remainingOps:[Op], precedence: Int){
+    func description(ops:[Op]) -> (result:String?, remainingOps:[Op]){
         if !ops.isEmpty{
             var remainingOps = ops
             let op = remainingOps.removeLast()
             switch op{
             case .Operand(let value):
-                return("\(value)",remainingOps, op.precedence)
+                return("\(value)",remainingOps)
             case .Variable(let variable):
-                return (variable, remainingOps, op.precedence)
+                return (variable, remainingOps)
             case .UnaryOperation(let operation, let operand):
                 let operandEvaluation = description(remainingOps)
                 if let value = operandEvaluation.result{
-                    return ("\(operation)(\(value))", operandEvaluation.remainingOps, op.precedence)
+                    return ("\(operation)(\(value))", operandEvaluation.remainingOps)
                 }
             case .BinaryOperation(let operation, let precedence, let operand):
                 let op1Evaluation = description(remainingOps)
                 if let operand1 = op1Evaluation.result{
                     let op2Evaluation = description(op1Evaluation.remainingOps)
                     if let operand2 = op2Evaluation.result{
-                            return ("(\(operand2) \(operation) \(operand1))",op2Evaluation.remainingOps,op.precedence)
+                            return ("(\(operand2) \(operation) \(operand1))",op2Evaluation.remainingOps)
                         }
                     
                 }
             }
         }
         //Missing operand
-        return ("?",ops, Int.max)
+        return ("?",ops)
     }
 
 }

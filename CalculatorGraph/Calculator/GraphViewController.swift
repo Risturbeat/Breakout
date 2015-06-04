@@ -8,12 +8,13 @@
 
 import UIKit
 
-class GraphViewController: UIViewController {
+class GraphViewController: UIViewController, GraphViewDataSource{
     @IBOutlet weak var graphView: GraphView!{
         didSet{
+            graphView.dataSource = self
             graphView.addGestureRecognizer(UIPinchGestureRecognizer(target: graphView, action: "scale:"))
             graphView.addGestureRecognizer(UIPanGestureRecognizer(target:graphView, action: "moveGraph:"))
-            let tapGesture = UITapGestureRecognizer(target: graphView, action:"setGraphCenterToTappedPosition:")
+            let tapGesture = UITapGestureRecognizer(target: graphView, action:":")
             tapGesture.numberOfTapsRequired = 2
             graphView.addGestureRecognizer(tapGesture)
             
@@ -21,7 +22,32 @@ class GraphViewController: UIViewController {
             //graphView.addGestureRecognizer(UITapGestureRecognizer(target: graphView, action: "setGraphCenterToTappedPosition:"))
         }
     }
-    func setGraphCenterToTappedPosition(gesture:UITapGestureRecognizer){
-        
+    
+    private var brain = CalculatorBrain()
+    
+    typealias PropertyList = AnyObject
+    var whatToDraw : PropertyList{
+        get {
+            return brain.program
+        }
+        set{
+            brain.program = newValue
+        }
+    }
+    
+    
+    func y(x: CGFloat) -> CGFloat?{
+        //The variable M is used as the "independent variable", hence it must be set
+        brain.variableValues["M"] = Double(x)
+        //I can use brain.evaluate since in the GraphViewControllers brain there is no other variable stored than M
+        //I cannot return it instantly though, since I have to check if it can actually be evaluated
+        if let y = brain.evaluate(){
+//            var alert = UIAlertController(title: "Title", message: "\(y)", preferredStyle: UIAlertControllerStyle.Alert)
+//                    alert.addAction(UIAlertAction(title: "Working!!", style: UIAlertActionStyle.Default, handler: nil))
+//                    self.presentViewController(alert, animated: true, completion: nil)
+//
+            return CGFloat(y)
+        }
+        return nil
     }
 }
