@@ -17,7 +17,7 @@ class BreakoutGameViewController: UIViewController {
     let paddleWidth: Int = 120
     var paddle: Paddle = Paddle(frame: CGRect(x:0, y:0, width:0, height:0)){
         didSet{
-            paddle.addGestureRecognizer(UIPanGestureRecognizer(target:paddle, action: "movePaddle:"))
+            paddle.addGestureRecognizer(UIPanGestureRecognizer(target:self, action: "movePaddle:"))
         }
     }
     
@@ -58,7 +58,6 @@ class BreakoutGameViewController: UIViewController {
     func addPaddle(){
         let paddleY = Int(paddleField.bounds.height) - paddleHeight
         let paddleX = Int(self.view.bounds.width/2) - paddleWidth/2
-        
         paddle = Paddle(frame: CGRect(x: paddleX, y: paddleY, width: paddleWidth, height: paddleHeight))
         paddleField.addSubview(paddle)
         paddle.setNeedsDisplay()
@@ -67,6 +66,21 @@ class BreakoutGameViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func movePaddle(sender: UIPanGestureRecognizer) {
+        switch sender.state{
+        case .Ended:
+            fallthrough
+        case .Changed:
+            let translation = sender.translationInView(self.view)
+            if let view = sender.view{
+                view.center = CGPoint(x: view.center.x + translation.x, y: view.center.y)
+            }
+            sender.setTranslation(CGPointZero, inView: self.view)
+        default:
+            break
+        }
     }
     
     func showAlert(title: String, message:String){
