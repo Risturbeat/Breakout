@@ -48,7 +48,7 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         collision.collisionDelegate = self
 
         showAlert("\(paddle.frame.width)", message: "\(paddle.frame.height)")
-        collision.addBoundaryWithIdentifier("paddle", forPath: UIBezierPath(rect: paddle.frame))
+        collision.addBoundaryWithIdentifier("paddle", forPath: UIBezierPath(rect: paddle.bounds))
 
 //        collision.translatesReferenceBoundsIntoBoundary = true
         
@@ -82,8 +82,8 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     }
     
     func addPaddle(){
-        let paddleY = 300//Int(paddleField.bounds.height) - paddleHeight
-        let paddleX = 0//Int(self.view.bounds.width/2) - paddleWidth/2
+        let paddleY = Int(paddleField.bounds.height) - paddleHeight
+        let paddleX = Int(self.view.bounds.width/2) - paddleWidth/2
         paddle = Paddle(frame: CGRect(x: paddleX, y: paddleY, width: 130, height: paddleHeight))
         paddleField.addSubview(paddle)
 //        paddle.setNeedsDisplay()
