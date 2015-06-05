@@ -25,17 +25,7 @@ class Paddle: UIView{
             paddleCenter = center
         }
         
-        var path = UIBezierPath(rect:rect)
-        UIColor.redColor().setFill()
-        path.fill()
-    }
-    
-    override init(frame: CGRect){
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
-    }
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.backgroundColor = UIColor.redColor()
     }
     
     func movePaddle(sender: UIPanGestureRecognizer) {
@@ -52,5 +42,4 @@ class Paddle: UIView{
             break
         }
     }
-   
 }

@@ -16,6 +16,7 @@
 		3F5A7D401B2186F5004BA6EC /* Breakout_Daniel_BramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A7D3F1B2186F5004BA6EC /* Breakout_Daniel_BramTests.swift */; };
 		3F5A7D4A1B218A02004BA6EC /* Brick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A7D491B218A02004BA6EC /* Brick.swift */; };
 		3F5A7D4C1B21B88C004BA6EC /* Paddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A7D4B1B21B88C004BA6EC /* Paddle.swift */; };
+		3F5A7D4E1B21CC87004BA6EC /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A7D4D1B21CC87004BA6EC /* Ball.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		3F5A7D3F1B2186F5004BA6EC /* Breakout_Daniel_BramTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breakout_Daniel_BramTests.swift; sourceTree = "<group>"; };
 		3F5A7D491B218A02004BA6EC /* Brick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brick.swift; sourceTree = "<group>"; };
 		3F5A7D4B1B21B88C004BA6EC /* Paddle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paddle.swift; sourceTree = "<group>"; };
+		3F5A7D4D1B21CC87004BA6EC /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				3F5A7D251B2186F5004BA6EC /* Supporting Files */,
 				3F5A7D491B218A02004BA6EC /* Brick.swift */,
 				3F5A7D4B1B21B88C004BA6EC /* Paddle.swift */,
+				3F5A7D4D1B21CC87004BA6EC /* Ball.swift */,
 			);
 			path = Breakout_Daniel_Bram;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F5A7D4E1B21CC87004BA6EC /* Ball.swift in Sources */,
 				3F5A7D2C1B2186F5004BA6EC /* SettingsViewController.swift in Sources */,
 				3F5A7D4A1B218A02004BA6EC /* Brick.swift in Sources */,
 				3F5A7D4C1B21B88C004BA6EC /* Paddle.swift in Sources */,
