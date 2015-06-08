@@ -10,8 +10,6 @@ import UIKit
 
 class Paddle: UIView{
     
-    var lastLocation : CGPoint = CGPointMake(0,0)
-    var nothing:Int  = 0
     var paddleCenter : CGPoint = CGPoint(){
         didSet{
             setPaddleCenterToCenter = false
@@ -25,7 +23,8 @@ class Paddle: UIView{
             paddleCenter = center
         }
         
-        self.backgroundColor = UIColor.redColor()
+//        self.backgroundColor = UIColor.redColor()
+//        self.backgroundColor?.set()
     }
     
     func movePaddle(sender: UIPanGestureRecognizer) {
@@ -36,7 +35,8 @@ class Paddle: UIView{
             let translation = sender.translationInView(self)
             paddleCenter.x += translation.x
             paddleCenter.y += translation.y
-//            self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+           
+            //            self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
             sender.setTranslation(CGPointZero, inView:self)
         default:
             break
