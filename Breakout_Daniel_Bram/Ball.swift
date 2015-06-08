@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Ball: UIView, UICollisionBehaviorDelegate {
+class Ball: UIView {
     override func drawRect(rect: CGRect) {
         var path = UIBezierPath(ovalInRect: rect)
         UIColor.cyanColor().setFill()
@@ -17,15 +17,6 @@ class Ball: UIView, UICollisionBehaviorDelegate {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.backgroundColor = UIColor.clearColor()
-    }
-    
-    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
-        if let collidingView = item as?  UIView{
-//            showAlert("title" , message: "\(identifier)")
-            UIView.animateWithDuration(1.5, animations: {
-                collidingView.alpha = 1.0
-            })
-        }
     }
 }
 

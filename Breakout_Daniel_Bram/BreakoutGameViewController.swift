@@ -12,6 +12,7 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     
     @IBOutlet weak var gameView: UIView!
     var brickAmount: Int = 9
+    var bricksLeft: Int = 0
     let brickDiameter: Int = 30
     let paddleHeight: Int = 30
     let paddleWidth: Int = 120
@@ -31,55 +32,64 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     var gravity: UIGravityBehavior!
     var collision: UICollisionBehavior!
     var bounceFactor : UIDynamicItemBehavior!
-    
+    var pushBehaviour: UIPushBehavior!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target:self, action: "pushBall:"))
         
+        animator = UIDynamicAnimator(referenceView: view)
+
+        bricksLeft = self.brickAmount
         addPaddle()
         addBricks()
         addBall()
-        
-        
+        addWalls()
+        addAnimation()
         navigationController?.setNavigationBarHidden(true, animated: false)
         
-        animator = UIDynamicAnimator(referenceView: view)
-        gravity = UIGravityBehavior(items: balls)
-        animator.addBehavior(gravity)
+        
+        
+    }
+    func addAnimation(){
+        pushBehaviour = UIPushBehavior(items: balls, mode: UIPushBehaviorMode.Instantaneous)
+        pushBehaviour.magnitude = 0.1
+        pushBehaviour.angle = 90
+        animator.addBehavior(pushBehaviour)
+        
         
         bounceFactor = UIDynamicItemBehavior(items: balls)
-        bounceFactor.elasticity = 1.0
+        bounceFactor.elasticity = 1.1
         animator.addBehavior(bounceFactor)
         
         var brickBehaviour = UIDynamicItemBehavior(items: blocks)
         brickBehaviour.resistance = CGFloat.max
         brickBehaviour.allowsRotation = false
         brickBehaviour.density = 0
+        brickBehaviour.elasticity = 1
         animator.addBehavior(brickBehaviour)
         
         collision = UICollisionBehavior(items: items)
         collision.translatesReferenceBoundsIntoBoundary = true
         collision.collisionDelegate = self
         
-        //        for var i = 0 ; i < brickAmount; i++ {
-        ////            collision.addBoundaryWithIdentifier("bricks"+"\(i)", forPath: UIBezierPath(rect: blocks[i].frame ))
-        //        }
-        
-        //        showAlert("\(paddle.frame.width)", message: "\(paddle.frame.height)")
         collision.addBoundaryWithIdentifier("paddle", forPath: UIBezierPath(ovalInRect: paddle.frame))
+        collision.addBoundaryWithIdentifier("leftWall", forPath: UIBezierPath(rect: CGRect(x: 0, y: 0, width: 2, height: self.view.frame.height)))
+        collision.addBoundaryWithIdentifier("rightWall", forPath: UIBezierPath(rect: CGRect(x: self.view.frame.width-5, y:0 ,width: 2, height: self.view.frame.height)))
+        collision.addBoundaryWithIdentifier("ceiling", forPath: UIBezierPath(rect: CGRect(x:0, y:0, width:500, height: 2)))
         collision.collisionMode = UICollisionBehaviorMode.Everything
         
         
         animator.addBehavior(collision)
-        
+
     }
     
     func addBricks(){
         var maxBricksPerRow = Int(self.view.frame.width) / (brickDiameter+10)
         //Cannot put equal bricks on each row
         
-        var brickXPosition = 0 + 20
-        var brickYPosition = 50 + 20
+        var brickXPosition = 20
+        var brickYPosition = 70
         let spaceBetweenBricks = 5
         let maxRows = brickAmount / maxBricksPerRow
         var currentRow = 0
@@ -100,18 +110,12 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     }
     
     func addPaddle(){
-        let tabbaerHeight = Int(gameView.frame.height)
-        
         let paddleY = Int(gameView.frame.height) - Int(tabBarController!.tabBar.frame.height) - paddleHeight
         let paddleX = Int(gameView.frame.width/2) - paddleWidth/2
         paddle = UIView(frame: CGRect(x: paddleX, y: paddleY, width: 130, height: paddleHeight))
         paddle.backgroundColor = UIColor.redColor()
         gameView.addSubview(paddle)
-        
-        //        items.append(paddle)
-        //        paddle = UIView(frame: CGRect(x: 0, y: 300, width: 130, height: 20))
-        //        paddle.backgroundColor = UIColor.redColor()
-        //        view.addSubview(paddle)
+
     }
     
     func addBall(){
@@ -119,44 +123,28 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         let ballY = 0
         let ball = Ball(frame: CGRect(x:ballX, y: ballY, width : 20, height: 20))
         gameView.addSubview(ball)
-        ball.setNeedsDisplay()
         balls.append(ball)
         items.append(ball)
-        //        UIView.animateWithDuration(1.0, animations: {
-        //            ball.frame = CGRect(x: 0, y:200, width: 20, height: 20)
-        //        })
     }
     
-    //    func addCollision(){
-    //        var collision = UICollisionBehavior(items: items)
-    //
-    //    }
-    //    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
-    //        if identifier as! String == "paddle" {
-    //            if let collidingView = item as? UIView{
-    //            showAlert("ITS A " , message: "Paddle")
-    //            UIView.animateWithDuration(1.5, animations: {
-    ////                    collidingView.alpha = 0.0
-    //                })
-    //            }
-    //        }
-    //
-    //        for var i = 0 ; i < brickAmount; i++ {
-    //            if identifier as! String == "brick"+"\(i)" {
-    //            }
-    //        }
-    //        //        if let collidingView = item as?  UIView{
-    ////        showAlert("title" , message: "\(identifier)")
-    ////            UIView.animateWithDuration(1.5, animations: {
-    ////                collidingView.alpha = 1.0
-    ////            })
-    ////        }
-    //    }
+    func addWalls(){
+//        collision.addBoundaryWithIdentifier("leftWall", forPath: UIBezierPath(rect: CGRect(x: 0, y: 0, width: 5, height: self.view.frame.height)))
+//        collision.addBoundaryWithIdentifier("rightWall", forPath: UIBezierPath(rect: CGRect(x: self.view.frame.width-5, y:0 ,width: 5, height: self.view.frame.height)))
+//        collision.addBoundaryWithIdentifier("ceiling", forPath: UIBezierPath(rect: CGRect(x:0, y:0, width:500, height: 5)))
+        
+    }
+   
     func collisionBehavior(behavior: UICollisionBehavior, endedContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem){
         if let brick  = item2 as? Brick{
-            UIView.animateWithDuration(0.5, animations: {
+            bricksLeft--
+            if bricksLeft == 0 {
+                gameWon()
+            }
+            self.collision.removeItem(brick)
+            UIView.animateWithDuration(1.0, animations: {
+                brick.transform = CGAffineTransformRotate(brick.transform, 3.1415926) //Source: http://stackoverflow.com/questions/24295669/rotate-a-uiview-infinitely-until-a-stop-method-is-called-and-animate-the-view-ba
                 brick.alpha = 0.0
-                self.collision.removeItem(brick)
+            
                 }, completion:{ finished in
                     brick.removeFromSuperview()
                     
@@ -186,6 +174,20 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         default:
             break
         }
+    }
+    
+    func pushBall(sender: UITapGestureRecognizer){
+        var pushBehaviour = UIPushBehavior(items: balls, mode: UIPushBehaviorMode.Instantaneous)
+        pushBehaviour.magnitude = 0.2
+        pushBehaviour.angle = CGFloat(Int(arc4random_uniform(360)+1))
+        animator.addBehavior(pushBehaviour)
+    }
+    
+    func gameWon(){
+        showAlert("Congratulations", message: "You won the game")
+//        animator.removeAllBehaviors()
+        addBricks()
+        addAnimation()
     }
     
     func showAlert(title: String, message:String){
