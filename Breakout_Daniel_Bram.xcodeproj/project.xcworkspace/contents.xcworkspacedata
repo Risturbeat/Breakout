@@ -2,6 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
+<<<<<<< HEAD
       location = "self:">
+=======
+      location = "self:Breakout_Daniel_Bram.xcodeproj">
+>>>>>>> c9e0497f7278df2707f6729cce38937f95949b39
    </FileRef>
 </Workspace>
