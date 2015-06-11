@@ -19,4 +19,3 @@ class Ball: UIView {
         self.backgroundColor = UIColor.clearColor()
     }
 }
-
