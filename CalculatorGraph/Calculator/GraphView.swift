@@ -55,7 +55,7 @@ class GraphView: UIView {
                     firstValidValue = true
                     continue
                 }
-                point.y = graphCenter.y - y * scale //Again respect the origin and take into account te scale
+                point.y = graphCenter.y - y * scale //Again respect the origin and take into account the scale
                 if firstValidValue {
                     path.moveToPoint(point)
                     firstValidValue = false

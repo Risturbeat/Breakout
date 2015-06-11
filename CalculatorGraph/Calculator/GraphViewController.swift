@@ -41,11 +41,10 @@ class GraphViewController: UIViewController, GraphViewDataSource{
         brain.variableValues["M"] = Double(x)
         //I can use brain.evaluate since in the GraphViewControllers brain there is no other variable stored than M
         //I cannot return it instantly though, since I have to check if it can actually be evaluated
+        var alert = UIAlertController(title: "Title", message: "\(x)", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Working!!", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
         if let y = brain.evaluate(){
-//            var alert = UIAlertController(title: "Title", message: "\(y)", preferredStyle: UIAlertControllerStyle.Alert)
-//                    alert.addAction(UIAlertAction(title: "Working!!", style: UIAlertActionStyle.Default, handler: nil))
-//                    self.presentViewController(alert, animated: true, completion: nil)
-//
             return CGFloat(y)
         }
         return nil
