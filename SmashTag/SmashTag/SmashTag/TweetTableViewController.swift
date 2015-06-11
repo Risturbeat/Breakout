@@ -158,7 +158,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //     Get the new view controller using [segue destinationViewController].
         //     Pass the selected object to the new view controller.
-  
+        tabBarController
         if segue.identifier == "Show Details"{
             var destination = segue.destinationViewController as? MentionsTableViewController
             if let cellOfTweet = sender as? TweetTableViewCell{

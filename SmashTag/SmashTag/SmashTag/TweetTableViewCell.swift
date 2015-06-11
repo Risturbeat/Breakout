@@ -58,7 +58,7 @@ class TweetTableViewCell: UITableViewCell {
             
             //tweetTextLabel?.text cannot be used since the colouredText is not a normal string, but an attributed string
             
-tweetTextLabel?.attributedText = colouredText
+            tweetTextLabel?.attributedText = colouredText
 //            tweetTextLabel?.text = tweet.text
             if tweetTextLabel.attributedText != nil{
                 for _ in tweet.media {
