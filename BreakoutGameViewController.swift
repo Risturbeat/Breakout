@@ -8,20 +8,22 @@
 
 import UIKit
 @IBDesignable
-class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
-    
+class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate, SettingsDelegate{
+    private let defaults = NSUserDefaults.standardUserDefaults()
     @IBOutlet weak var gameView: UIView!
-    var brickAmount: Int = 9
+    @IBOutlet weak var livesLeftLabel: UILabel!
+    private var firstLoad = true
+    
+    var lifeAmount: Int = 0
+    var brickAmount: Int = 0
     var bricksLeft: Int = 0
     let brickDiameter: Int = 30
     let paddleHeight: Int = 30
-    let paddleWidth: Int = 120
-    var paddle: UIView! {
-        didSet{
-            paddle.addGestureRecognizer(UIPanGestureRecognizer(target:self, action: "movePaddle:"))
-        }
-    }
+    var paddleWidth: Int = 0
+    var paddle: UIView!
+    var ballAmount: Int = 0
     
+    var settings = Settings()
     //    var ball: Ball = Ball(frame:CGRect(x:0,y:0,width:0,height:0))
     //    var paddle: UIView!
     var items: [UIView] = []
@@ -29,34 +31,58 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     var blocks: [UIView] = []
     
     var animator: UIDynamicAnimator!
-    var gravity: UIGravityBehavior!
     var collision: UICollisionBehavior!
     var bounceFactor : UIDynamicItemBehavior!
     var pushBehaviour: UIPushBehavior!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.view.addGestureRecognizer(UITapGestureRecognizer(target:self, action: "pushBall:"))
         
-        animator = UIDynamicAnimator(referenceView: view)
+        settings.delegate = self
+        
+        getVariablesFromUserDefaults()
+        
+        livesLeftLabel.text = "\(lifeAmount)"
 
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        startGame()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if !firstLoad{
+            getVariablesFromUserDefaults()
+            livesLeftLabel.text = "\(lifeAmount)"
+            resetGame()
+        }else{
+            firstLoad = false
+        }
+    }
+    
+    func getVariablesFromUserDefaults(){
+        brickAmount = defaults.objectForKey("brickAmount") as! Int
+        lifeAmount = defaults.objectForKey("lifeAmount") as! Int
+        paddleWidth = defaults.objectForKey("paddleWidth") as! Int
+//        ballAmount = defaults.objectForKey(")
+    }
+    func startGame(){
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target:self, action: "pushBall:"))
+        animator = UIDynamicAnimator(referenceView: view)
         bricksLeft = self.brickAmount
         addPaddle()
         addBricks()
         addBall()
         addWalls()
         addAnimation()
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        
-        
     }
+    
     func addAnimation(){
         pushBehaviour = UIPushBehavior(items: balls, mode: UIPushBehaviorMode.Instantaneous)
         pushBehaviour.magnitude = 0.1
         pushBehaviour.angle = 90
         animator.addBehavior(pushBehaviour)
-        
         
         bounceFactor = UIDynamicItemBehavior(items: balls)
         bounceFactor.elasticity = 1.1
@@ -65,8 +91,6 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         var brickBehaviour = UIDynamicItemBehavior(items: blocks)
         brickBehaviour.resistance = CGFloat.max
         brickBehaviour.allowsRotation = false
-        brickBehaviour.density = 0
-        brickBehaviour.elasticity = 1
         animator.addBehavior(brickBehaviour)
         
         collision = UICollisionBehavior(items: items)
@@ -81,7 +105,6 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         
         
         animator.addBehavior(collision)
-
     }
     
     func addBricks(){
@@ -97,7 +120,7 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         for var i = 0; i < brickAmount; i++ {
             if i % maxBricksPerRow == 0 && i != 0{
                 brickYPosition += brickDiameter + spaceBetweenBricks*2
-                brickXPosition = 0
+                brickXPosition = 20
             }
             
             var brick = Brick(frame: CGRect(x: brickXPosition, y: brickYPosition, width: brickDiameter, height: brickDiameter))
@@ -112,15 +135,15 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     func addPaddle(){
         let paddleY = Int(gameView.frame.height) - Int(tabBarController!.tabBar.frame.height) - paddleHeight
         let paddleX = Int(gameView.frame.width/2) - paddleWidth/2
-        paddle = UIView(frame: CGRect(x: paddleX, y: paddleY, width: 130, height: paddleHeight))
+        paddle = UIView(frame: CGRect(x: paddleX, y: paddleY, width: paddleWidth, height: paddleHeight))
         paddle.backgroundColor = UIColor.redColor()
+        paddle.addGestureRecognizer(UIPanGestureRecognizer(target:self, action: "movePaddle:"))
         gameView.addSubview(paddle)
-
     }
     
     func addBall(){
         let ballX = Int(paddle.center.x)
-        let ballY = 0
+        let ballY = Int(gameView.frame.height) - Int(tabBarController!.tabBar.frame.height) - paddleHeight - 50
         let ball = Ball(frame: CGRect(x:ballX, y: ballY, width : 20, height: 20))
         gameView.addSubview(ball)
         balls.append(ball)
@@ -142,7 +165,7 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
             }
             self.collision.removeItem(brick)
             UIView.animateWithDuration(1.0, animations: {
-                brick.transform = CGAffineTransformRotate(brick.transform, 3.1415926) //Source: http://stackoverflow.com/questions/24295669/rotate-a-uiview-infinitely-until-a-stop-method-is-called-and-animate-the-view-ba
+                brick.transform = CGAffineTransformRotate(brick.transform, CGFloat(M_PI)) //Source: http://stackoverflow.com/questions/24295669/rotate-a-uiview-infinitely-until-a-stop-method-is-called-and-animate-the-view-ba
                 brick.alpha = 0.0
             
                 }, completion:{ finished in
@@ -152,13 +175,10 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
         }
     }
     
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     func movePaddle(sender: UIPanGestureRecognizer) {
         switch sender.state{
         case .Ended:
@@ -184,10 +204,45 @@ class BreakoutGameViewController: UIViewController, UICollisionBehaviorDelegate{
     }
     
     func gameWon(){
-        showAlert("Congratulations", message: "You won the game")
-//        animator.removeAllBehaviors()
-        addBricks()
-        addAnimation()
+        var alert = UIAlertController(title: "Congratulations" , message: "You won the game", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Start new game", style: UIAlertActionStyle.Default, handler: {alert in self.resetGame()} ))
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
+    func resetGame(){
+        animator.removeBehavior(collision)
+        animator.removeBehavior(bounceFactor)
+        animator.removeBehavior(pushBehaviour)
+        
+        for brick in blocks{
+            brick.removeFromSuperview()
+        }
+        for ball in balls{
+            ball.removeFromSuperview()
+        }
+        
+        paddle.removeFromSuperview()
+        
+        items = []
+        blocks = []
+        balls = []
+
+        startGame()
+    }
+    
+    func brickAmountChanged(newAmount: Int){
+        println(" Brick amount  \(newAmount)" )
+        brickAmount = newAmount
+    }
+    func lifeAmountChanged(newAmount:Int){
+        println(" Life amount  \(newAmount)" )
+        livesLeftLabel.text = "\(newAmount)"
+        lifeAmount = newAmount
+    }
+    func paddleWidthChanged(newAmount:Int){
+        println(" Paddle amount  \(newAmount)" )
+        paddleWidth = newAmount
     }
     
     func showAlert(title: String, message:String){
